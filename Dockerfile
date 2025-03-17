@@ -1,18 +1,11 @@
-# 1) Use an official Python base image
 FROM python:3.10-slim
 
-# 2) Set a working directory
-WORKDIR /app
+# Install system dependencies for psycopg2 & cryptography
+RUN apt-get update && apt-get install -y libpq-dev gcc
 
-# 3) Copy requirements and install
+WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-
-# 4) Copy the rest of your code
 COPY . .
-
-# 5) Expose the port (optional)
 EXPOSE 8000
-
-# 6) Set the command to run your Django app
 CMD ["gunicorn", "GoAir.wsgi:application", "--bind", "0.0.0.0:8000"]
