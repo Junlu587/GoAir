@@ -111,9 +111,7 @@ WSGI_APPLICATION = 'GoAir.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': env.db('DATABASE_URL', default='sqlite:///db.sqlite3')
-}
+
 
 
 # Password validation
@@ -180,4 +178,11 @@ AUTHENTICATION_BACKENDS = [
 
 # Initialize environment variables
 env = environ.Env(DEBUG=(bool, False))
+
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+DATABASES = {
+    'default': env.db('DATABASE_URL', default='sqlite:///db.sqlite3')
+}
