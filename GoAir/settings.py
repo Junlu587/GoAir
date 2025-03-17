@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import dj_database_url
 import os
 import environ
 
@@ -27,7 +28,11 @@ SECRET_KEY = 'django-insecure-!20l^n2u9c0k#whg+tm*m!+)69e%2(2v2=cq4c8$nd4!88cu36
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "goair.up.railway.app",  # Your Railway domain
+    "127.0.0.1",             # Local development
+    "localhost"              # Local development
+]
 
 
 # Application definition
@@ -184,5 +189,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 DATABASES = {
-    'default': env.db('DATABASE_URL', default='sqlite:///db.sqlite3')
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL')
+    )
 }
