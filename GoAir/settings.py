@@ -76,6 +76,7 @@ CELERY_ACCEPT_CONTENT = ["json"]  # 任务以 JSON 格式传输
 CELERY_TASK_SERIALIZER = "json"  # 使用 JSON 作为任务序列化格式
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'GoAir', 'static'),
