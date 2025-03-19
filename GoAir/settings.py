@@ -9,70 +9,110 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os.path
 from pathlib import Path
-import dj_database_url
 import os
+
+import dj_database_url
+# from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from dotenv import load_dotenv
 import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!20l^n2u9c0k#whg+tm*m!+)69e%2(2v2=cq4c8$nd4!88cu36'
+SECRET_KEY = 'django-insecure-97rn99d7l#w+2d%7$j&o3a@rgv$0+dq*m_o($y-c+b4dieca39'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = [
     "goair.up.railway.app",  # Your Railway domain
-    "127.0.0.1",             # Local development
-    "localhost"              # Local development
+    "127.0.0.1",  # Local development
+    "localhost"  # Local development
 ]
-
 
 # Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    "corsheaders",  # 添加 CORS 头部
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',  # Django REST Framework
-    'rest_framework.authtoken',
-    'django.contrib.sites',  # Required by allauth
-    'flights',  # 航班管理
-    'users',  # 用户管理
-    'bookings',  # 订票管理
-    'alerts',  # 提醒管理
-    'notifications',  # 通知管理
-    'external_api',  # 外部服务
-    # Allauth apps
+    'rest_framework.authtoken',  # 新增
+
+    'myApp',
+    'myApp.users',  # 用户管理
+    'myApp.notifications',  # 通知管理
+    'myApp.flights',  # 航班管理
+    'myApp.alerts',  # 提醒管理
+    'myApp.trips',  # 行程管理
+    'django_celery_beat',  # 添加 Celery Beat
+    'myApp.external_api',  # API管理
+
+    'django.contrib.sites',  # 必须添加
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-    'dj_rest_auth',          # Optional: for REST endpoints
+    'allauth.socialaccount.providers.google',  # Google 登录
+    'dj_rest_auth',  # Optional: for REST endpoints
     'dj_rest_auth.registration',  # Optional: for registration endpoints
 ]
+SITE_ID = 1
 
+AUTH_USER_MODEL = 'users.CustomUser'  # 使用自定义用户模型
 
+# Celery 配置
+CELERY_BROKER_URL = "redis://localhost:6379/0"  # 使用 Redis 作为消息队列
+CELERY_ACCEPT_CONTENT = ["json"]  # 任务以 JSON 格式传输
+CELERY_TASK_SERIALIZER = "json"  # 使用 JSON 作为任务序列化格式
+
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'GoAir', 'static'),
+]
+
+# 媒体文件
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'GoAir', 'MEDIA')
+
+# 确保在开发模式下使用 STATICFILES_DIRS
+if DEBUG:
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'GoAir', 'static'),  # 你的静态文件目录
+    ]
+else:
+    STATICFILES_DIRS = []
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'allauth.account.middleware.AccountMiddleware',  
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",  # 启用 CORS 处理
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8000",  # 允许本地访问
+    "http://127.0.0.1:8000",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
 ]
 
 ROOT_URLCONF = 'GoAir.urls'
@@ -80,7 +120,7 @@ ROOT_URLCONF = 'GoAir.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'GoAir', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -95,35 +135,44 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'GoAir.wsgi.application'
 
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/user/'  # 登录后重定向到首页
+LOGOUT_REDIRECT_URL = '/user/'  # 登出后重定向到登录页
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+# load_dotenv()
+# SOCIALACCOUNT_PROVIDERS = {
+#     'google': {
+#         'SCOPE': ['email', 'profile'],
+#         'AUTH_PARAMS': {'access_type': 'online'},
 #     }
 # }
+#
+# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
+# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'goairdb',         # The DB name you created
-#         'USER': 'postgres',            # Or the owner if different
-#         'PASSWORD': '19931031',
-#         'HOST': '127.0.0.1',
-#         'PORT': '5432',
+#         'NAME': os.getenv('DATABASE_NAME'),
+#         'USER': os.getenv('DATABASE_USER'),
+#         'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+#         'HOST': os.getenv('DATABASE_HOST'),
+#         'PORT': os.getenv('DATABASE_PORT'),
+#     }
+# }
+#
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),  # ✅ 使用 os.path.join()
 #     }
 # }
 
-
-
-
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
-
-AUTH_USER_MODEL = 'users.CustomUser'
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -151,11 +200,9 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -176,35 +223,44 @@ REST_FRAMEWORK = {
 }
 
 AUTHENTICATION_BACKENDS = [
-    'users.backends.EmailOrUsernameBackend',  # custom backend first
+    'myApp.users.backends.EmailOrUsernameBackend',  # custom backend first
     'django.contrib.auth.backends.ModelBackend',  # default for fallback
     'allauth.account.auth_backends.AuthenticationBackend',  # for allauth
 ]
-
 # Initialize environment variables
 env = environ.Env(DEBUG=(bool, False))
-
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+environ.Env.read_env(os.path.join(BASE_DIR, 'GoAir', '.env'))
 
 DATABASES = {
     'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
 }
 
-SITE_ID = 1   # Required by django-allauth
-
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
-
-
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
+
         'APP': {
             'client_id': os.environ.get('GOOGLE_CLIENT_ID'),
             'secret': os.environ.get('GOOGLE_CLIENT_SECRET'),
         },
+        'TEMPLATE': 'socialaccount/providers/google/login.html',  # 你自己指定
         'SCOPE': ['profile', 'email'],
         'AUTH_PARAMS': {'access_type': 'online'},
     }
 }
+SOCIALACCOUNT_LOGIN_ON_GET = False
+
+# 用户登录方式：只用邮箱
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+
+# 必须填邮箱
+ACCOUNT_EMAIL_REQUIRED = True
+
+# 不需要用户名
+ACCOUNT_USERNAME_REQUIRED = True
+
+# print("DEBUG: BASE_DIR =", BASE_DIR)
+# print("DEBUG: TEMPLATES DIR =", os.path.join(BASE_DIR, 'GoAir', 'templates'))
+# print("DEBUG: GOOGLE_CLIENT_ID =", os.environ.get('GOOGLE_CLIENT_ID'))
+# print("DEBUG: GOOGLE_CLIENT_SECRET =", os.environ.get('GOOGLE_CLIENT_SECRET'))
+# print("DEBUG: GOOGLE REDIRECT URI =", os.environ.get('GOOGLE_REDIRECT_URI'))
+# print("DEBUG: GOOGLE REDIRECT URI =", GoogleOAuth2Adapter.redirect_uri)

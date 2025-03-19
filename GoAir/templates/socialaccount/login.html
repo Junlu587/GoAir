@@ -1,0 +1,149 @@
+{% load i18n account socialaccount %}
+{% load static %}
+{% load socialaccount %}
+<!-- 如果你有社交登录，需要这个 -->
+<!-- Add this to your Google login template -->
+<!-- DEBUG: This template is being loaded -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GoAir - Sign In via Google</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+    <style>
+        /* 🌈 背景渐变 + 全局样式 */
+        body {
+            background: linear-gradient(to right, #84a9ac, #3b6978, #204051);
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .container-fluid {
+            width: 100%;
+            padding: 20px;
+        }
+
+        /* 左上角 LOGO */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .logo-container img {
+            width: 60px;
+            height: auto;
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .logo-text span {
+            color: #007bff;
+        }
+
+        .logo-text .air {
+            color: #007bff;
+        }
+
+        /* 主体容器 */
+        .google-box {
+            padding: 30px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 600px; /* 限制最大宽度 */
+            text-align: center;
+            margin: auto;
+        }
+
+        /* 标题 */
+        .google-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* 提示文字 */
+        .google-desc {
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+    
+        .btn-cancel {
+            width: 120px;
+            font-weight: bold;
+            margin: 5px;
+            background-color: #6c757d !important; /* 默认按钮颜色 */
+            color: white;
+            border: none;
+            transition: 0.3s ease-in-out;
+        }
+
+        .btn-cancel:hover {
+            background-color: #5a6268 !important;
+            color: white;
+        }
+
+        .btn-google {
+            background-color: #db4437; /* Google红 */
+            color: white;
+            font-weight: bold;
+            border: none;
+            transition: 0.3s ease-in-out;
+            width: 120px;
+            margin: 5px;
+        }
+
+        .btn-google:hover {
+            background-color: #c23321;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid mt-4">
+    <div class="row">
+        <!-- 左上角 LOGO -->
+        <div class="col-lg-3 col-md-4">
+            <div class="logo-container">
+                <img src="{% static 'images/logo.png' %}" alt="Logo" width="50">
+                <h3 class="logo-text ms-2">Go<span>!Air</span></h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="google-box">
+        <!-- 标题 -->
+        <h2 class="google-title">Sign In Via Google</h2>
+
+        <!-- 提示文字 -->
+        <p class="google-desc">
+            You are about to sign in using a third-party account from Google.
+        </p>
+
+        <!-- 继续 or 取消 -->
+        <!-- Allauth 通常会 POST 提交表单继续，也可直接 link。这里给你两种做法： -->
+        <form method="post" action="{{ form.action_url }}">
+            {% csrf_token %}
+            <!-- Allauth 可能会用 "provider" / "process" / "action" 等隐藏字段 -->
+            {{ form.hidden_fields }} <!-- 如果 Allauth 提供 hidden_fields -->
+
+            <!-- Continue 按钮 -->
+            <button type="submit" class="btn btn-google">Continue</button>
+            <!-- Cancel 按钮，回到首页或者自定义路由 -->
+            <a href="{% url 'home' %}" class="btn btn-cancel">Cancel</a>
+        </form>
+    </div>
+</div>
+
+<!-- Bootstrap 5.3 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

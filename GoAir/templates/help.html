@@ -1,0 +1,209 @@
+<!--加载logo图片-->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 设置网页的字符集，保证支持多种语言 -->
+    <meta charset="UTF-8">
+    <!-- 让网页适配移动端，保证在手机、平板和 PC 上都能正常显示 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoAir - Home</title>
+
+    <!-- 引入 Bootstrap 5.3 CSS（用于美化页面和布局） -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- 引入 Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+
+    <style>
+        /* 🌈 让整个网页的背景变成渐变色，提升视觉效果 */
+        body {
+            background: linear-gradient(to right, #84a9ac, #3b6978, #204051); /* 渐变背景 */
+            color: white; /* 让所有文本默认变为白色 */
+            font-family: Arial, sans-serif; /* 统一网页字体，保证美观 */
+        }
+
+        /* 💻 让整个页面适应全屏，而不是固定宽度 */
+        .container-fluid {
+            width: 100%; /* 让网页填充整个屏幕 */
+            padding: 20px; /* 设置内边距，避免内容太紧凑 */
+        }
+
+        /* 🔵 左上角 LOGO 样式 */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .logo-container img {
+            width: 60px; /* LOGO 图片大小 */
+            height: auto;
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .logo-text span {
+            color: #007bff; /* `!` 变成蓝色 */
+        }
+
+        .logo-text .air {
+            color: #007bff; /* `Air` 变成蓝色 */
+        }
+
+        /* 🔘 返回按钮样式 */
+        .btn-custom {
+            border-radius: 10px; /* 圆角按钮 */
+            padding: 5px 5px;
+            font-size: 14px;
+            font-weight: bold;
+            color: white !important; /* 让按钮文字变白 */
+            border: 1px solid white !important; /* 白色边框 */
+            background-color: transparent; /* 透明背景 */
+            transition: all 0.3s ease-in-out;
+            min-width: 90px; /* 统一按钮宽度 */
+            text-align: center;
+        }
+
+        .btn-custom:hover {
+            background-color: rgba(255, 255, 255, 0.2) !important;
+            border-color: white !important;
+        }
+
+        .btn-container {
+            display: flex;
+            width: auto;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 20px;
+            margin-top: 20px;
+            margin-right: 50px;
+            gap: 20px;
+            position: relative;
+        }
+
+        /* 🔍 搜索框（增加搜索按钮） */
+        .search-bar-container {
+            display: flex;
+            width: 100%;
+            justify-content: center; /* 让搜索框在页面中水平居中 */
+            align-items: center; /* 让搜索框垂直居中 */
+            margin-top: 10px; /* 可以调整与上方的间距 */
+        }
+
+        /* 🔍 顶部搜索栏样式 */
+        .search-bar {
+            height: 45px; /* 统一高度 */
+            width: 100%; /*让搜索栏占满整列 */
+            padding: 12px; /* 让输入框更舒适 */
+            border: none; /* 去除边框 */
+            border-radius: 20px 0 0 20px; /* 让搜索框边角变得圆滑 */
+            margin-bottom: 20px; /* 设置与下方的间距 */
+            \margin-top: 10px; /* 可以调整与上方的间距 */
+            text-align: center; /* 让文字居中 */
+            font-size: 18px;
+            background: white; /* 设置搜索框背景颜色 */
+            color: #204051; /* 设置字体颜色 */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 给搜索框添加阴影 */
+            flex-grow: 1; /* 让搜索框自动填充可用空间 */
+        }
+
+        .search-btn {
+            height: 45px; /* 统一高度 */
+            padding: 12px 20px;
+            border-radius: 0 20px 20px 0; /* 让右侧圆角 */
+            border: none;
+            background-color: #0366d4;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+            /*margin-left: -5px;  让按钮更贴合搜索框 */
+            align-items: center; /* 让按钮内的图标垂直居中 */
+            margin-bottom: 20px; /* 设置与下方的间距 */
+            margin-top: 10px; /* 可以调整与上方的间距 */
+        }
+
+        .search-btn:hover {
+            background-color: #0056b3; /* 悬停时颜色变深 */
+        }
+
+        h1 {
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center; /* 让文字居中 */
+        }
+
+        /* 白色内容区 */
+        .content-box {
+            background-color: rgba(255, 255, 255, 0.95);
+            color: #204051;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.3);
+            margin: 0 auto;
+            width: 90%;
+        }
+
+
+    </style>
+</head>
+<body>
+
+<!-- 📌 让整个页面使用 `container-fluid` 适配全屏 -->
+<div class="container-fluid mt-4">
+    <div class="row ">
+        <!-- 🔵 左侧部分（LOGO + 通知 + 提醒） -->
+        <div class="col-lg-3 col-md-4">
+            <div class="logo-container">
+                <img src="{% static 'images/logo.png' %}" alt="Logo" width="50">
+                <h3 class="logo-text ms-2">Go<span>!Air</span></h3>
+            </div>
+
+        </div>
+
+
+        <!-- ✈ 中间部分（搜索框 + 航班查询） -->
+        <div class="col-lg-6 col-md-8">
+            <div class="search-bar-container w-100">
+                <div class="d-flex align-items-center w-100">
+                    <input type="text" class="search-bar" placeholder="Search">
+                    <button class="search-btn"><i class="bi bi-search"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🔘 Home 和 Back 按钮 -->
+        <div class="col-lg-3 col-md-12 d-flex justify-content-end align-items-center">
+            <div class="btn-container">
+                <a href="{% url 'home' %}" class="btn-custom">Home</a>
+                <a href="javascript:history.back();" class="btn-custom">Back</a>
+            </div>
+        </div>
+
+        <h1>Go!Air - Help</h1>
+
+        <div class="content-box mt-3">
+            <p>Welcome to the GoAir Help page. Here you can find frequently asked questions, user guides, and
+                troubleshooting steps to ensure a smooth experience.</p>
+            <ul>
+                <li><strong>FAQ:</strong> Refer to our <em>Frequently Asked Questions</em> for common issues.</li>
+                <li><strong>User Guides:</strong> Learn how to book flights, manage trips, and more.</li>
+                <li><strong>Support:</strong> If you can’t find the answer, contact our support team.</li>
+            </ul>
+            <p class="mt-3">Need more assistance? Reach out to our customer service.</p>
+        </div>
+
+    </div>
+</div>
+
+<!-- 📌 引入 Bootstrap 5.3 JavaScript（用于交互效果） -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

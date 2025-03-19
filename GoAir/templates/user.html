@@ -1,0 +1,453 @@
+<!--加载logo图片-->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications</title>
+
+    <!-- 引入 Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- 引入 Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+    <style>
+        /* 🌈 让整个网页的背景变成渐变色，提升视觉效果 */
+        body {
+            background: linear-gradient(to right, #84a9ac, #3b6978, #204051); /* 渐变背景 */
+            color: white; /* 让所有文本默认变为白色 */
+            font-family: Arial, sans-serif; /* 统一网页字体，保证美观 */
+        }
+
+        /* 💻 让整个页面适应全屏，而不是固定宽度 */
+        .container-fluid {
+            width: 100%; /* 让网页填充整个屏幕 */
+            padding: 20px; /* 设置内边距，避免内容太紧凑 */
+        }
+
+        /* 🔵 左上角 LOGO 样式 */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .logo-container img {
+            width: 60px; /* LOGO 图片大小 */
+            height: auto;
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .logo-text span {
+            color: #007bff; /* `!` 变成蓝色 */
+        }
+
+        .logo-text .air {
+            color: #007bff; /* `Air` 变成蓝色 */
+        }
+
+        /* 🔍 搜索框（增加搜索按钮） */
+        .search-bar-container {
+            display: flex;
+            width: 100%;
+            justify-content: center; /* 让搜索框在页面中水平居中 */
+            align-items: center; /* 让搜索框垂直居中 */
+            margin-top: 10px; /* 可以调整与上方的间距 */
+        }
+
+        /* 🔍 顶部搜索栏样式 */
+        .search-bar {
+            height: 45px; /* 统一高度 */
+            width: 100%; /*让搜索栏占满整列 */
+            padding: 12px; /* 让输入框更舒适 */
+            border: none; /* 去除边框 */
+            border-radius: 20px 0 0 20px; /* 让搜索框边角变得圆滑 */
+            margin-bottom: 20px; /* 设置与下方的间距 */
+            \margin-top: 10px; /* 可以调整与上方的间距 */
+            text-align: center; /* 让文字居中 */
+            font-size: 18px;
+            background: white; /* 设置搜索框背景颜色 */
+            color: #204051; /* 设置字体颜色 */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 给搜索框添加阴影 */
+            flex-grow: 1; /* 让搜索框自动填充可用空间 */
+        }
+
+        .search-btn {
+            height: 45px; /* 统一高度 */
+            padding: 12px 20px;
+            border-radius: 0 20px 20px 0; /* 让右侧圆角 */
+            border: none;
+            background-color: #0366d4;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+            /*margin-left: -5px;  让按钮更贴合搜索框 */
+            align-items: center; /* 让按钮内的图标垂直居中 */
+            margin-bottom: 20px; /* 设置与下方的间距 */
+            margin-top: 10px; /* 可以调整与上方的间距 */
+        }
+
+        .search-btn:hover {
+            background-color: #0056b3; /* 悬停时颜色变深 */
+        }
+
+        /* 🔘 返回按钮样式 */
+        .btn-custom {
+            border-radius: 10px; /* 圆角按钮 */
+            padding: 5px 5px;
+            font-size: 14px;
+            font-weight: bold;
+            color: white !important; /* 让按钮文字变白 */
+            border: 1px solid white !important; /* 白色边框 */
+            background-color: transparent; /* 透明背景 */
+            transition: all 0.3s ease-in-out;
+            min-width: 90px; /* 统一按钮宽度 */
+            text-align: center;
+        }
+
+        .btn-custom:hover {
+            background-color: rgba(255, 255, 255, 0.2) !important;
+            border-color: white !important;
+        }
+
+        .btn-container {
+            display: flex;
+            width: auto;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 20px;
+            margin-top: 20px;
+            margin-left: 50px;
+            gap: 20px;
+            position: relative;
+        }
+
+        /* 👤 用户头像 */
+        /* 左侧信息栏 */
+        .user-info {
+            width: 25%;
+            text-align: center;
+            padding: 20px;
+            border-right: 1px solid #ccc;
+        }
+
+        .user-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin: 10px auto;
+            overflow: hidden; /* 防止图片溢出 */
+        }
+
+        /* 信息输入框 */
+        .info-box {
+            width: 100%;
+            padding: 5px;
+            margin: 5px 0;
+            border: 1px solid black;
+            border-radius: 3px;
+        }
+
+        /* 主要内容区域 */
+        .main-content {
+            width: 50%;
+            padding: 20px;
+        }
+
+        /* 右侧通知栏 */
+        .notification-panel {
+            width: 25%;
+            padding: 20px;
+            border-left: 1px solid #ccc;
+        }
+
+        /* 行程 & 警报 */
+        .trip-box, .alert-box, .notification-box {
+            background-color: white;
+            padding: 10px;
+            border: 1px solid black;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            color: #204051;
+        }
+
+        /* 让具体的 Alert 和 Notification 保持黑色 */
+        .alert-box a, .notification-box a {
+            color: #204051 !important; /* 让具体的内容 */
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+            color: white !important; /* 让文字变成白色 */
+            text-decoration: none; /* 去掉默认的下划线 */
+        }
+
+        /* 确保所有 section-title 内的 <a> 标签变白色 */
+        .section-title a {
+            color: white !important;
+            text-decoration: none; /* 去掉下划线 */
+        }
+
+        .btn-log {
+            display: block; /* 或 inline-block; 但 block 更能配合 w-100 */
+            width: 100%; /* 强制宽度 100% */
+            border-radius: 10px;
+            padding: 5px 5px;
+            font-size: 14px;
+            font-weight: bold;
+            color: white !important;
+            border: 1px solid white !important;
+            background-color: transparent;
+            transition: all 0.3s ease-in-out;
+            text-align: center; /* 让文字水平居中 */
+            text-decoration: none; /* 去掉 <a> 的下划线 */
+            box-sizing: border-box; /* 确保内边距计算 */
+        }
+
+        .btn-log:hover {
+            background-color: rgba(255, 255, 255, 0.2) !important;
+            border-color: white !important;
+        }
+
+        /* 模态框自定义样式 */
+        .modal-custom .modal-content {
+            background-color: #f8f9fa; /* 背景为白色 */
+            color: #204051; /* 文字颜色 */
+            border-radius: 8px; /* 圆角 */
+        }
+
+        /* 头部、底部背景颜色 */
+        .modal-custom .modal-header,
+        .modal-custom .modal-footer {
+            background-color: #f8f9fa; /* 浅灰背景 */
+        }
+
+        /* 标题样式 */
+        .modal-custom .modal-title {
+            color: #204051;
+            font-weight: bold;
+        }
+
+        /* ------------- 底部按钮样式 ------------- */
+        /* 让底部按钮统一有圆角、边框等 */
+        .modal-custom .modal-footer .btn {
+            border-radius: 10px;
+            font-weight: bold;
+            padding: 8px 16px;
+            border: none; /* 也可以自定义边框 */
+            transition: 0.3s ease-in-out;
+        }
+
+        /* Cancel 按钮：灰色风格 */
+        .modal-custom .modal-footer .btn-cancel {
+            background-color: #6c757d; /* 相当于 .btn-secondary */
+            color: #fff;
+        }
+
+        .modal-custom .modal-footer .btn-cancel:hover {
+            background-color: #5a6268; /* 悬停时更深 */
+        }
+
+        /* Save changes 按钮：蓝色风格 */
+        .modal-custom .modal-footer .btn-save {
+            background-color: #2d6786; /* 相当于 .btn-primary */
+            color: #fff;
+        }
+
+        .modal-custom .modal-footer .btn-save:hover {
+            background-color: #214e67;
+        }
+
+    </style>
+</head>
+<body>
+<!-- 📌 让整个页面使用 `container-fluid` 适配全屏 -->
+<div class="container-fluid mt-4">
+    <div class="row">
+        <!-- 🔵 左侧部分（LOGO ） -->
+        <div class="col-lg-3 col-md-4">
+            <div class="logo-container">
+                <img src="{% static 'images/logo.png' %}" alt="Logo" width="50">
+                <h3 class="logo-text ms-2">Go<span>!Air</span></h3>
+            </div>
+        </div>
+
+        <!-- ✈ 中间部分（搜索框 ） -->
+        <div class="col-lg-6 col-md-8">
+            <div class="search-bar-container w-100">
+                <div class="d-flex align-items-center w-100">
+                    <input type="text" class="search-bar" placeholder="Search">
+                    <button class="search-btn"><i class="bi bi-search"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🔘 Home 和 Back 按钮 -->
+        <div class="btn-container">
+            <a href="{% url 'home' %}" class="btn-custom">Home</a>
+            <a href="javascript:history.back();" class="btn-custom">Back</a>
+        </div>
+
+        <!-- 📌 三列布局 -->
+        <div class="d-flex mt-3">
+            <!-- 📌 左侧 用户信息 -->
+            <div class="user-info">
+                <div class="user-avatar">
+                    {% if user.avatar %}
+                        <!-- 如果上传过头像，显示图片 -->
+                        <img src="{{ user.avatar.url }}" alt="Avatar"
+                             style="width:100%; height:100%; object-fit:cover;">
+                    {% else %}
+                        <!-- 否则首字母或 'U' -->
+                        {% if user.username %}
+                            {{ user.username|slice:":1"|upper }}
+                        {% else %}
+                            U
+                        {% endif %}
+                    {% endif %}
+                </div>
+                <div class="text-start">
+                    <label>Username:</label>
+                    {% if user.username %}
+                        <input type="text" class="info-box" placeholder="Your Name" value="{{ user.username }}"
+                               readonly>
+                    {% else %}
+                        <input type="text" class="info-box" placeholder="Your Name" value="" readonly>
+                    {% endif %}
+
+                    <label>E-mail:</label>
+                    <input type="text" class="info-box" placeholder="Your Email"
+                           value="{{ user.email|default_if_none:'' }}" readonly>
+
+                    <label>TEL:</label>
+                    <input type="text" class="info-box" placeholder="Your Phone"
+                           value="{{ user.phone|default_if_none:'' }}" readonly>
+                </div>
+                <!-- Modify Information: 弹出模态框 -->
+                <button class="btn-log mt-2 w-100" data-bs-toggle="modal" data-bs-target="#modifyModal">Modify
+                    Information
+                </button>
+                <!-- Logout: 退出并返回首页 (假设在 urls.py 里 name='logout') -->
+                <a href="{% url 'logout' %}" class="btn-log mt-2 w-100">Log out</a>
+            </div>
+
+            <!-- 中列：My Trips + My Alerts -->
+            <div class="main-content">
+                <!-- My Trips 标题，可点击跳转 trip_list -->
+                <div class="section-title">
+                    <a href="{% url 'trip_list' %}" class="text-decoration-none">My Trips</a>
+                </div>
+
+                <!-- 遍历 trips，按照出发日期由近到远 (假设后端视图中已经 order_by('-departure_date')) -->
+                {% for trip in trips %}
+                    <div class="trip-box">
+                        <!-- 显示出发日期、航班号、起点、终点 -->
+                        {{ trip.departure_date|date:"Y-m-d" }} / Flight: {{ trip.flight_number }} / {{ trip.origin }}
+                        → {{ trip.destination }}
+                    </div>
+                {% empty %}
+                    <p>No Trips Found.</p>
+                {% endfor %}
+                <div class="text-center">...</div>
+
+                <!-- My Alerts 标题，可点击跳转 alerts -->
+                <div class="section-title mt-4">
+                    <a href="{% url 'alerts' %}" class="text-decoration-none">My Alerts</a>
+                </div>
+                <!-- 遍历 alerts，按照出发日期由近到远 -->
+                {% for alert in alerts %}
+                    <div class="alert-box">
+                        <!-- 显示出发日期、航班号 -->
+                        {{ alert.departure_date|date:"Y-m-d" }} / Flight: {{ alert.flight_number }}
+                    </div>
+                {% empty %}
+                    <p>No Alerts Found.</p>
+                {% endfor %}
+                <div class="text-center">...</div>
+            </div>
+
+            <!-- 右列：Notifications -->
+            <div class="notification-panel">
+                <div class="section-title">
+                    <a href="{% url 'notifications' %}" class="text-decoration-none">Notifications</a>
+                </div>
+                <!-- 遍历 notifications，按照出发日期由近到远 -->
+                {% for notification in notifications %}
+                    <div class="notification-box">
+                        <!-- 简要显示航班号 (假设 notification 关联 trip) -->
+                        Notification: Flight #{{ notification.trip.flight_number }}
+                    </div>
+                {% empty %}
+                    <p>No Notifications Found.</p>
+                {% endfor %}
+                <div class="text-center">...</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 模态框：自定义类 modal-custom -->
+<div class="modal fade modal-custom" id="modifyModal" tabindex="-1"
+     aria-labelledby="modifyModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- 头部样式可在 .modal-custom .modal-header 里设置 -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="modifyModalLabel">Modify Information</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <!-- enctype 必须是 multipart/form-data 才能上传文件 -->
+            <form method="POST" action="{% url 'modify_info' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="id_username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="id_username" name="username"
+                               value="{{ user.username|default_if_none:'' }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="id_email" name="email"
+                               value="{{ user.email|default_if_none:'' }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_phone" class="form-label">Phone</label>
+                        <input type="text" class="form-control" id="id_phone" name="phone"
+                               value="{{ user.phone|default_if_none:'' }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_avatar" class="form-label">Avatar (Upload)</label>
+                        <input type="file" class="form-control" id="id_avatar" name="avatar" accept="image/*">
+                    </div>
+                </div>
+                <!-- 底部按钮样式可在 .modal-custom .modal-footer 里自定义 -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-save">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- 📌 引入 Bootstrap 5.3 JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

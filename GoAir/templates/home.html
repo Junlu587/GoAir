@@ -1,0 +1,555 @@
+<!--加载logo图片-->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 设置网页的字符集，保证支持多种语言 -->
+    <meta charset="UTF-8">
+    <!-- 让网页适配移动端，保证在手机、平板和 PC 上都能正常显示 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoAir - Home</title>
+
+    <!-- 引入 Bootstrap 5.3 CSS（用于美化页面和布局） -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- 引入 Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+
+    <style>
+        /* 🌈 让整个网页的背景变成渐变色，提升视觉效果 */
+        body {
+            background: linear-gradient(to right, #84a9ac, #3b6978, #204051); /* 渐变背景 */
+            color: white; /* 让所有文本默认变为白色 */
+            font-family: Arial, sans-serif; /* 统一网页字体，保证美观 */
+        }
+
+        /* 💻 让整个页面适应全屏，而不是固定宽度 */
+        .container-fluid {
+            width: 100%; /* 让网页填充整个屏幕 */
+            padding: 20px; /* 设置内边距，避免内容太紧凑 */
+        }
+
+        /* 🔵 左上角 LOGO 样式 */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .logo-container img {
+            width: 60px; /* LOGO 图片大小 */
+            height: auto;
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .logo-text span {
+            color: #007bff; /* `!` 变成蓝色 */
+        }
+
+        .logo-text .air {
+            color: #007bff; /* `Air` 变成蓝色 */
+        }
+
+        /* 📢 左侧通知区域（Brief Notification + Alert） */
+        .left-box {
+            height: 300px; /* 固定高度 */
+            border-radius: 15px; /* 让边角变圆 */
+            background-color: white; /* 设置白色背景 */
+            color: #204051; /* 设置字体颜色 */
+            padding: 10px;
+            text-align: center; /* 让文字居中 */
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2); /* 添加阴影 */
+            margin-top: 18px; /* 默认的 box 与上一个保持 10px 间距 */
+            margin-bottom: 0; /* 也可以用 2px */
+        }
+
+        /* 仅第一个 .left-box 保持 46px */
+        .first-box {
+            margin-top: 46px;
+        }
+
+
+        /* 🔍 搜索框（增加搜索按钮） */
+        .search-bar-container {
+            display: flex;
+            width: 100%;
+            justify-content: center; /* 让搜索框在页面中水平居中 */
+            align-items: center; /* 让搜索框垂直居中 */
+            margin-top: 10px; /* 可以调整与上方的间距 */
+        }
+
+        /* 🔍 顶部搜索栏样式 */
+        .search-bar {
+            height: 45px; /* 统一高度 */
+            width: 100%; /*让搜索栏占满整列 */
+            padding: 12px; /* 让输入框更舒适 */
+            border: none; /* 去除边框 */
+            border-radius: 20px 0 0 20px; /* 让搜索框边角变得圆滑 */
+            margin-bottom: 20px; /* 设置与下方的间距 */
+            \margin-top: 10px; /* 可以调整与上方的间距 */
+            text-align: center; /* 让文字居中 */
+            font-size: 18px;
+            background: white; /* 设置搜索框背景颜色 */
+            color: #204051; /* 设置字体颜色 */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 给搜索框添加阴影 */
+            flex-grow: 1; /* 让搜索框自动填充可用空间 */
+        }
+
+        .search-btn {
+            height: 45px; /* 统一高度 */
+            padding: 12px 20px;
+            border-radius: 0 20px 20px 0; /* 让右侧圆角 */
+            border: none;
+            background-color: #0366d4;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+            /*margin-left: -5px;  让按钮更贴合搜索框 */
+            align-items: center; /* 让按钮内的图标垂直居中 */
+            margin-bottom: 20px; /* 设置与下方的间距 */
+            margin-top: 10px; /* 可以调整与上方的间距 */
+        }
+
+        .search-btn:hover {
+            background-color: #0056b3; /* 悬停时颜色变深 */
+        }
+
+
+        /* 👤 右上角用户头像样式 */
+        .user-circle {
+            width: 100px; /* 头像大小 */
+            height: 100px;
+            border-radius: 50%; /* 让头像变成圆形 */
+            background-color: white;
+            color: #204051;
+            text-align: center;
+            display: flex; /* 让内容居中 */
+            align-items: center; /* 垂直居中 */
+            justify-content: center; /* 水平居中 */
+            line-height: 70px; /* 让文字垂直居中 */
+            font-weight: bold;
+            margin-top: -10px;
+            margin-left: 250px;
+            margin-right: 100px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* 头像添加阴影 */
+            /* 🚀 让头像靠右对齐 */
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 70px; /* 头像图片大小 */
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* 🎛️ 让 Trips 和 Setting 按钮靠近头像 */
+        .user-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 20px; /* 按钮间距 */
+            position: relative;
+            margin-top: -65px; /* 让按钮稍微离头像有点距离 */
+            margin-right: 240px;
+            margin-bottom: 25px; /* 减小按钮与下方的间距 */
+        }
+
+        /* 🏷️ 按钮样式 */
+        .btn-custom {
+            border-radius: 10px; /* 圆角按钮 */
+            padding: 5px 5px;
+            font-size: 14px;
+            font-weight: bold;
+            color: white !important; /* 让按钮文字变白 */
+            border: 1px solid white !important; /* 白色边框 */
+            background-color: transparent; /* 透明背景 */
+            transition: all 0.3s ease-in-out;
+            min-width: 120px; /* 统一按钮宽度 */
+            text-align: center;
+        }
+
+        /* 🚀 按钮悬停效果 */
+        .user-buttons .btn:hover {
+            background-color: rgba(255, 255, 255, 0.2) !important;
+            border-color: white !important;
+        }
+
+        /* ✈ 航班搜索框样式 */
+        .search-box {
+            background-color: white; /* 背景白色 */
+            padding: 20px;
+            border-radius: 15px; /* 让搜索框变得圆滑 */
+            border: none;
+            box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.3); /* 添加阴影 */
+            margin-top: 25px; /* 与上方间距 */
+            margin-bottom: 20px;
+        }
+
+        /* 📝 统一搜索框内输入框的样式 */
+        .search-box input {
+            margin-top: 10px; /* 与上方间距 */
+            height: 50px; /* 固定高度 */
+            width: 100%;
+            margin-bottom: 16px; /* 输入框之间的间距 */
+            border-radius: 8px; /* 让输入框边角更圆滑 */
+            padding: 15px;
+            border: 1px solid #b4b4b4; /* 设置边框颜色 */
+
+        }
+
+        /* 表单排版：标签在左，输入框在右 */
+        .form-row {
+            display: flex; /* 水平排列 */
+            align-items: center; /* 垂直居中 */
+            margin-bottom: 5px; /* 每行底部留出间距 */
+        }
+
+        .form-label {
+            flex: 0 0 20%; /* 标签占固定宽度 */
+            margin-bottom: 0; /* 取消默认下边距 */
+            font-weight: 600;
+            color: #204051;
+            text-align: right; /* 标签文本右对齐 */
+            margin-right: 30px; /* 标签与内容之间的间距 */
+        }
+
+        .form-control {
+            flex: 1; /* 剩余空间给输入框 */
+            height: 50px; /* 可自行调整 */
+            border-radius: 8px;
+            padding: 10px;
+            border: 1px solid #b4b4b4;
+        }
+
+        /* 🔘 美化 "Search for Flights" 按钮 */
+        .search-box button {
+            width: 100%;
+            border-radius: 8px; /* 让按钮变得更圆滑 */
+            padding: 15px;
+            font-size: 16px;
+            background-color: #3b6978; /* 默认按钮颜色 */
+            color: white;
+            border: none;
+            transition: 0.3s; /* 添加平滑过渡效果 */
+            margin-top: 19px; /* 与上方间距 */
+            margin-bottom: 20px; /* 设置与下方的间距 */
+        }
+
+        /* 🚀 鼠标悬停时改变按钮颜色 */
+        .search-box button:hover {
+            background-color: #204051; /* 悬停时颜色变深 */
+        }
+
+        /* 让三个部分左中右对齐 */
+        .row {
+            display: flex;
+            align-items: flex-start; /* 🚀 让三个部分等高 */
+        }
+
+        .search-box, .right-box {
+            margin-top: 20px; /* 让三个部分上边缘对齐 */
+            margin-bottom: 0; /* 让三个部分下边缘对齐 */
+        }
+
+        /* 📌 右侧按钮区域（Help, Privacy, Contact Us） */
+        .right-box {
+            height: 190px; /* 固定高度 */
+            width: 100%;
+            border-radius: 15px; /* 让边角变得更圆滑 */
+            background-color: white;
+            color: #204051;
+            padding: 10px;
+            display: flex;
+            flex-direction: column; /* 让标题和文本垂直排列 */
+            align-items: center; /* 标题文本居中 */
+            text-decoration: none;
+            justify-content: flex-start; /* 整体从上方开始 */
+            /*margin-bottom: 5px;  设置与下方的间距 */
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2); /* 添加阴影 */
+        }
+
+        .right-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            height: 100%; /* 🚀 让右侧部分自动填充高度 */
+            gap: 5px; /* 让 Help / Privacy / Contact us 之间间距均匀 */
+            margin-top: 5px; /* 🔥 与左、中保持一致 */
+            margin-bottom: 5px;
+        }
+
+        /* 让标题居中 */
+        .right-box h3 {
+            text-align: center !important;
+            color: #204051 !important;
+            font-size: 16px !important; /* 与左侧强文本大小接近 */
+            margin: 0 auto; /* 去掉默认 margin，避免影响对齐 */
+            padding: 0;
+            font-weight: bold;
+        }
+
+        .right-box p {
+            margin-top: 10px;
+            font-size: 14px;
+            text-align: center; /* 让简短描述也居中 */
+            margin-left: auto; /* 让文字水平居中 */
+            margin-right: auto;
+            justify-content: center;
+        }
+
+        /* 让链接没有下划线，且颜色为 #204051 */
+        .right-box h3 a {
+            text-decoration: none !important; /* 去掉下划线 */
+            color: #204051 !important; /* 强制链接颜色覆盖 Bootstrap */
+        }
+
+        /* 用一个中间区容纳文本，让其在垂直方向居中 */
+        .text-spacer {
+            flex: 1; /* 占据剩余高度 */
+            display: flex;
+            align-items: center; /* 垂直居中 */
+            justify-content: center; /* 水平居中 */
+            width: 100%;
+        }
+
+        .text-spacer p {
+            margin: 0;
+            font-size: 14px;
+            text-align: center; /* 如果想与左侧类似，可改为 left */
+        }
+
+
+    </style>
+</head>
+<body>
+
+<!-- 📌 让整个页面使用 `container-fluid` 适配全屏 -->
+<div class="container-fluid mt-4">
+    <div class="row ">
+        <!-- 🔵 左侧部分（LOGO + 通知 + 提醒） -->
+        <div class="col-lg-3 col-md-4">
+            <div class="logo-container">
+                <img src="{% static 'images/logo.png' %}" alt="Logo" width="50">
+                <h3 class="logo-text ms-2">Go<span>!Air</span></h3>
+            </div>
+            <!-- 
+                1) 简要显示通知信息里的航班号 
+                   假设后端模板变量: notifications 
+                   notifications.0.flight_number 
+                   (仅演示取第一个通知)
+            -->
+            <div class="left-box first-box">
+                <a href="{% url 'notifications' %}" class="text-decoration-none text-dark">
+                    <strong>Brief Notification</strong>
+                </a>
+                <p>
+                    <!-- 如果 notifications 存在并有第一个航班号，则显示，否则显示 "No data" -->
+                    {% if notifications and notifications|length > 0 %}
+                        Flight #: {{ notifications.0.flight_number }}
+                    {% else %}
+                        No data
+                    {% endif %}
+                </p>
+            </div>
+
+            <!-- 
+                2) 简要显示提醒信息里的航班号 
+                   假设后端模板变量: alerts
+                   alerts.0.flight_number 
+                   (仅演示取第一个提醒)
+            -->
+            <div class="left-box">
+                <a href="{% url 'alerts' %}" class="text-decoration-none text-dark">
+                    <strong>Alert</strong>
+                </a>
+                <p>
+                    {% if alerts and alerts|length > 0 %}
+                        Flight #: {{ alerts.0.flight_number }}
+                    {% else %}
+                        No data
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+
+        <!-- ✈ 中间部分（搜索框 + 航班查询） -->
+        <div class="col-lg-6 col-md-8">
+            <div class="search-bar-container w-100">
+                <div class="d-flex align-items-center w-100">
+                    <input type="text" class="search-bar" placeholder="Search">
+                    <button class="search-btn"><i class="bi bi-search"></i></button>
+                </div>
+            </div>
+            <!-- 重点：让表单直接提交到后端 /search/ 路由 -->
+            <div class="search-box">
+                <!-- method="get" 或 "post"，action 使用后端定义的路由 -->
+                <form method="get" action="{% url 'search' %}">
+                    <div class="form-row">
+                        <label for="origin" class="form-label">Origin *</label>
+                        <!-- name="origin" 与后端 request.GET.get('origin') 对应 -->
+                        <input type="text" class="form-control" id="origin" name="origin" placeholder="eg: LAX"
+                               required>
+                    </div>
+                    <div class="form-row">
+                        <label for="departure_date" class="form-label">Departure *</label>
+                        <!-- name="date" 对应 request.GET.get('date') -->
+                        <input type="date" class="form-control" id="departure_date" name="date" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="destination" class="form-label">Destination *</label>
+                        <input type="text" class="form-control" id="destination" name="destination"
+                               placeholder="eg: JFK" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="return_date" class="form-label">Return</label>
+                        <!-- name="return_date" -->
+                        <input type="date" class="form-control" id="return_date" name="return_date">
+                    </div>
+                    <div class="form-row">
+                        <label for="airline" class="form-label">Airline</label>
+                        <input type="text" class="form-control" id="airline" name="airline" placeholder="eg: Delta">
+                    </div>
+                    <div class="form-row">
+                        <label for="class" class="form-label">Class</label>
+                        <input type="text" class="form-control" id="class" name="class"
+                               placeholder="eg: Economy / Business">
+                    </div>
+                    <!-- 点击此按钮将跳转到 /search/ 并携带表单参数 -->
+                    <button type="submit" class="btn btn-dark">Search for Flights</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- 用于显示搜索结果 
+        <div id="search-results" 
+             style="background: white; color: #204051; 
+                    padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+        </div>-->
+
+        <!-- 👤 右侧部分（用户信息 + 设置） -->
+        <div class="col-lg-3 col-md-12 text-end">
+            <div class="user-circle">
+                {% if request.user.is_authenticated %}
+                    <!-- 如果用户已登录 -->
+                    {% if user.avatar %}
+                        <!-- 如果用户上传了头像，就显示头像 -->
+                        <a href="{% url 'user_page' %}">
+                            <img src="{{ user.avatar.url }}" alt=" " class="user-avatar">
+                        </a>
+                    {% else %}
+                        <!-- 否则，显示用户名首字母或 'U'，并可点击跳转到用户信息页 -->
+                        <a href="{% url 'user' %}"
+                           class="text-decoration-none text-dark d-flex align-items-center justify-content-center"
+                           style="width: 70px; height: 70px; border-radius: 50%; background: transparent;">
+                            {% if user.username %}
+                                {{ user.username|slice:":1"|upper }}
+                            {% else %}
+                                U
+                            {% endif %}
+                        </a>
+                    {% endif %}
+                {% else %}
+                    <!-- 如果用户未登录，就显示一个默认头像，点击跳转到登录页 -->
+                    <a href="{% url 'login' %}">
+                        <img src="{{ media_url }}avatars/default.jpg " alt=" " class="user-avatar">
+                    </a>
+                {% endif %}
+            </div>
+
+            <!-- 
+                3) 移除 Setting 按钮，只保留 Trips
+                4) Trips 跳转到 trip_list
+            -->
+            <div class="user-buttons">
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'trip_list' %}" class="btn btn-custom">Trips</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-custom">Trips</a>
+                {% endif %}
+            </div>
+
+            <!-- 
+                5) Help, Privacy, Contact => 链接到对应页面
+                原先 right-box 是静态文本，现在改成 <a> 链接
+            -->
+            <!-- Help / Privacy / Contact us: 标题可点击跳转 + 框内简要文本 -->
+            <div class="right-section">
+                <div class="right-box">
+                    <h3>
+                        <!-- 点击标题跳转到 help.html -->
+                        <a href="{% url 'help' %}">Help</a>
+                    </h3>
+                    <!-- 用一个 .text-spacer 容纳文本，并垂直居中 -->
+                    <div class="text-spacer">
+                        <p>Here is a short help text. For more info, please check the documentation.</p>
+                    </div>
+                </div>
+                <div class="right-box">
+                    <h3>
+                        <!-- 点击标题跳转到 privacy.html -->
+                        <a href="{% url 'privacy' %}">Privacy</a>
+                    </h3>
+                    <div class="text-spacer">
+                        <p>We value your privacy. This is a brief summary of our policy.</p>
+                    </div>
+                </div>
+                <div class="right-box">
+                    <h3>
+                        <!-- 点击标题跳转到 contact.html -->
+                        <a href="{% url 'contact' %}">Contact us</a>
+                    </h3>
+                    <div class="text-spacer">
+                        <p>You can reach us via email or phone. We are here to help!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 📌 引入 Bootstrap 5.3 JavaScript（用于交互效果） -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- 新增脚本，通过 AJAX 调用 flight-search API -->
+<script>
+    document.getElementById('flight-search-form').addEventListener('submit', function (event) {
+        event.preventDefault(); // 阻止默认表单提交
+
+        // 获取表单中的 Origin 与 Destination 值
+        const origin = document.getElementsByName('from')[0].value;
+        const destination = document.getElementsByName('to')[0].value;
+        // 构建请求 URL，使用 Django 的 url 模板标签获取 API 路径
+        let apiUrl = "{% url 'flight-search' %}?origin=" + encodeURIComponent(origin) + "&destination=" + encodeURIComponent(destination) + "&type=oneway";
+
+        // 调用后端 API 获取航班数据
+    fetch('/api/flights/')
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById('flights-container');
+        if(data.length === 0){
+          container.innerHTML = '<p>暂无航班信息</p>';
+          return;
+        }
+        data.forEach(flight => {
+          // 根据实际返回数据结构调整字段名称
+          const flightDiv = document.createElement('div');
+          flightDiv.innerHTML = `<strong>${flight.airline}</strong> - 航班号：${flight.flight_number}`;
+          container.appendChild(flightDiv);
+        });
+      })
+      .catch(error => {
+        console.error('加载航班数据失败：', error);
+        document.getElementById('flights-container').innerHTML = '<p>加载数据失败</p>';
+      });
+    });
+</script>
+
+</body>
+</html>
