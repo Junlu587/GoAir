@@ -22,5 +22,5 @@ class UserViewSet(viewsets.ModelViewSet):
         password = request.data.get("password")
         user = authenticate(username=username, password=password)
         if user:
-            return Response({"message": "登录成功", "username": user.username})
-        return Response({"error": "用户名或密码错误"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message": "Login successfully", "username": user.username})
+        return Response({"error": "Invalid username or password"}, status=status.HTTP_400_BAD_REQUEST)

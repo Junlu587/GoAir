@@ -129,17 +129,5 @@ class BookAPI:
             return {"error": "An unexpected error occurred while fetching flight data."}
 
 
-# 你可以这样测试：
-if __name__ == "__main__":
-    api = BookAPI()
-    results = api.search_flights(
-        origin="beijing",
-        destination="newyork",
-        trip_type="oneway",
-        date="2025-04-01",
-        return_date="2025-04-15",
-        flight_class="economy",
-        airline="UA",
-        sort="BEST"
-    )
-    print(results)
+
+
