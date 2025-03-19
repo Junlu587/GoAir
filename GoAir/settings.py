@@ -237,3 +237,19 @@ ACCOUNT_USERNAME_REQUIRED = True
 # print("DEBUG: GOOGLE_CLIENT_SECRET =", os.environ.get('GOOGLE_CLIENT_SECRET'))
 # print("DEBUG: GOOGLE REDIRECT URI =", os.environ.get('GOOGLE_REDIRECT_URI'))
 # print("DEBUG: GOOGLE REDIRECT URI =", GoogleOAuth2Adapter.redirect_uri)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    },
+}
