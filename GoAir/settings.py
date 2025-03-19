@@ -16,6 +16,7 @@ import os
 import dj_database_url
 # from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from dotenv import load_dotenv
+load_dotenv()  # This loads .env into os.environ
 import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -141,37 +142,9 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/user/'  # 登录后重定向到首页
 LOGOUT_REDIRECT_URL = '/user/'  # 登出后重定向到登录页
 
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
-# load_dotenv()
-# SOCIALACCOUNT_PROVIDERS = {
-#     'google': {
-#         'SCOPE': ['email', 'profile'],
-#         'AUTH_PARAMS': {'access_type': 'online'},
-#     }
-# }
-#
-# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
-# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': os.getenv('DATABASE_NAME'),
-#         'USER': os.getenv('DATABASE_USER'),
-#         'PASSWORD': os.getenv('DATABASE_PASSWORD'),
-#         'HOST': os.getenv('DATABASE_HOST'),
-#         'PORT': os.getenv('DATABASE_PORT'),
-#     }
-# }
-#
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),  # ✅ 使用 os.path.join()
-#     }
-# }
+DATABASES = {
+    'default': dj_database_url.config(default='sqlite:///db.sqlite3')
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -233,9 +206,7 @@ AUTHENTICATION_BACKENDS = [
 env = environ.Env(DEBUG=(bool, False))
 environ.Env.read_env(os.path.join(BASE_DIR, 'GoAir', '.env'))
 
-DATABASES = {
-    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
-}
+
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
