@@ -1,1 +1,2 @@
-web: gunicorn GoAir.wsgi --bind 0.0.0.0:$PORT
+web: gunicorn GoAir.wsgi:application --bind 0.0.0.0:$PORT
+
