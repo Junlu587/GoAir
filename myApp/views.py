@@ -22,6 +22,8 @@ from myApp.notifications.models import Notification
 from myApp.trips.models import Trip
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework import viewsets
+
 @method_decorator(csrf_exempt, name='dispatch')
 class ExternalAPIViewSet(viewsets.ViewSet):
 
