@@ -33,7 +33,8 @@ SECRET_KEY = 'django-insecure-97rn99d7l#w+2d%7$j&o3a@rgv$0+dq*m_o($y-c+b4dieca39
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "goair.up.railway.app",  # Your Railway domain
+    "goair.up.railway.app",
+    "my-app.onrender.com",
     "127.0.0.1",  # Local development
     "localhost"  # Local development
 ]
@@ -73,9 +74,9 @@ SITE_ID = 1
 AUTH_USER_MODEL = 'users.CustomUser'  # 使用自定义用户模型
 
 # Celery 配置
-CELERY_BROKER_URL = "redis://localhost:6379/0"  # 使用 Redis 作为消息队列
-CELERY_ACCEPT_CONTENT = ["json"]  # 任务以 JSON 格式传输
-CELERY_TASK_SERIALIZER = "json"  # 使用 JSON 作为任务序列化格式
+# CELERY_BROKER_URL = "redis://localhost:6379/0"  # 使用 Redis 作为消息队列
+# CELERY_ACCEPT_CONTENT = ["json"]  # 任务以 JSON 格式传输
+# CELERY_TASK_SERIALIZER = "json"  # 使用 JSON 作为任务序列化格式
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
