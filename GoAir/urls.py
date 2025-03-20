@@ -43,7 +43,7 @@ urlpatterns = [
 
     # 将 externalapi 应用的路由挂载到 /api/external/ 下
     path('api/external/', include('myApp.external_api.urls')),
-    path('api/search', search_flights, name='search'),
+    path('api/search/', search_flights, name='search'),
 
     path('accounts/', include('allauth.urls')),  # Django allauth 路由
 

@@ -19,9 +19,19 @@
     <style>
         /* 🌈 让整个网页的背景变成渐变色，提升视觉效果 */
         body {
-            background: linear-gradient(to right, #84a9ac, #3b6978, #204051); /* 渐变背景 */
             color: white; /* 让所有文本默认变为白色 */
-            font-family: Arial, sans-serif; /* 统一网页字体，保证美观 */
+            font-family: Arial, sans-serif; /* 统一网页字体 */
+
+            /* 先加载背景图片，然后再叠加半透明渐变 */
+            background: linear-gradient(to right, rgba(132, 169, 172, 0.6), rgba(59, 105, 120, 0.6), rgba(32, 64, 81, 0.6)),
+            url("{% static 'images/background.jpg' %}");
+
+            background-size: cover; /* 让背景图片填满页面 */
+            background-position: center; /* 居中显示 */
+            background-repeat: no-repeat; /* 防止背景重复 */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* 至少占满整个屏幕 */
         }
 
         /* 💻 让整个页面适应全屏，而不是固定宽度 */
@@ -70,7 +80,7 @@
 
         /* 仅第一个 .left-box 保持 46px */
         .first-box {
-            margin-top: 46px;
+            margin-top: 55px;
         }
 
 
@@ -189,6 +199,10 @@
             box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.3); /* 添加阴影 */
             margin-top: 25px; /* 与上方间距 */
             margin-bottom: 20px;
+        }
+
+        .col-lg-6 {
+            padding-top: 85px; /* 让整个中间部分往下移动 */
         }
 
         /* 📝 统一搜索框内输入框的样式 */
@@ -335,7 +349,7 @@
         <!-- 🔵 左侧部分（LOGO + 通知 + 提醒） -->
         <div class="col-lg-3 col-md-4">
             <div class="logo-container">
-                <img src="{% static 'images/logo.png' %}" alt="Logo" width="50">
+{#                <img src="{% static 'images/logo.png' %}" alt="Logo" width="50">#}
                 <h3 class="logo-text ms-2">Go<span>!Air</span></h3>
             </div>
             <!-- 
@@ -379,15 +393,15 @@
         </div>
 
 
-        <!-- ✈ 中间部分（搜索框 + 航班查询） -->
+        <!--- ✈ 中间部分（搜索框 + 航班查询） -->
         <div class="col-lg-6 col-md-8">
-            <div class="search-bar-container w-100">
-                <div class="d-flex align-items-center w-100">
-                    <input type="text" class="search-bar" placeholder="Search">
-                    <button class="search-btn"><i class="bi bi-search"></i></button>
-                </div>
-            </div>
-            <!-- 重点：让表单直接提交到后端 /search/ 路由 -->
+{#            <div class="search-bar-container w-100">#}
+{#                <div class="d-flex align-items-center w-100">#}
+{#                    <input type="text" class="search-bar" placeholder="Search">#}
+{#                    <button class="search-btn"><i class="bi bi-search"></i></button>#}
+{#                </div>#}
+{#            </div>#}
+            <!--- 重点：让表单直接提交到后端 /search/ 路由 -->
             <div class="search-box">
                 <!-- method="get" 或 "post"，action 使用后端定义的路由 -->
                 <form method="get" action="{% url 'search' %}">

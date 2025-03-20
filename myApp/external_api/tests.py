@@ -3,6 +3,10 @@ from rest_framework import status
 from unittest.mock import patch
 from django.contrib.auth import get_user_model
 
+import os
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'GoAir.settings')
+import django
+django.setup()
 
 User = get_user_model()
 

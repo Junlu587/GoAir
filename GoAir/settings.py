@@ -112,7 +112,9 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",  # 允许本地访问
     "http://127.0.0.1:8000",
+    "https://goair.onrender.com",
 ]
+CORS_ALLOW_ALL_ORIGINS = True
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:8000",

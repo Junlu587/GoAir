@@ -835,7 +835,7 @@
         departure_date: urlParams.get("departure_date")
     };
 
-    fetch("/api/search", {
+    fetch("/api/search/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(requestData)

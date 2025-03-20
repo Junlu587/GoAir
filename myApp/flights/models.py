@@ -19,6 +19,7 @@ class Flight(models.Model):
     departure_time = models.TimeField(null=True, blank=True)
     arrival_date = models.DateField(null=True, blank=True)
     arrival_time = models.TimeField(null=True, blank=True)
+    return_date = models.DateField(null=True, blank=True)
 
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     currency = models.CharField(max_length=10, default="USD")

@@ -6,7 +6,7 @@ import json
 class BookAPI:
     def __init__(self):
         self.headers = {
-            "x-rapidapi-key": "85ee220e84msha0a35b916c0fae3p1a2cbejsne95a2a9b1b89",  # Your API key
+            "x-rapidapi-key": "763ac69eb6msh793e9d528a2bddbp1f4d8ajsn8dac6a73a4d7",  # Your API key
             "x-rapidapi-host": "booking-com15.p.rapidapi.com"
         }
         self.conn = http.client.HTTPSConnection("booking-com15.p.rapidapi.com")
