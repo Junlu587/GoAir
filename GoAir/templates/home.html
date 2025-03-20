@@ -519,14 +519,14 @@
 
 <!-- 新增脚本，通过 AJAX 调用 flight-search API -->
 <script>
-    document.getElementById('flight-search-form').addEventListener('submit', function (event) {
+    document.getElementById('flight_search_form').addEventListener('submit', function (event) {
         event.preventDefault(); // 阻止默认表单提交
 
         // 获取表单中的 Origin 与 Destination 值
         const origin = document.getElementsByName('from')[0].value;
         const destination = document.getElementsByName('to')[0].value;
         // 构建请求 URL，使用 Django 的 url 模板标签获取 API 路径
-        let apiUrl = "{% url 'flight-search' %}?origin=" + encodeURIComponent(origin) + "&destination=" + encodeURIComponent(destination) + "&type=oneway";
+        let apiUrl = "{% url 'flight_search' %}?origin=" + encodeURIComponent(origin) + "&destination=" + encodeURIComponent(destination) + "&type=oneway";
 
         // 调用后端 API 获取航班数据
     fetch('/api/flights/')
@@ -540,15 +540,28 @@
         data.forEach(flight => {
           // 根据实际返回数据结构调整字段名称
           const flightDiv = document.createElement('div');
-          flightDiv.innerHTML = `<strong>${flight.airline}</strong> - 航班号：${flight.flight_number}`;
+          flightDiv.innerHTML = `<strong>${flight.airline}</strong> - flight number：${flight.flight_number}`;
           container.appendChild(flightDiv);
         });
       })
       .catch(error => {
-        console.error('加载航班数据失败：', error);
-        document.getElementById('flights-container').innerHTML = '<p>加载数据失败</p>';
+        console.error('Failed to load flight data：', error);
+        document.getElementById('flights-container').innerHTML = '<p>Failed to load flight data</p>';
       });
     });
+    document.addEventListener("DOMContentLoaded", function() {
+    const searchButton = document.getElementById("searchButton");
+    const searchInput = document.getElementById("searchInput");
+
+    if (searchButton && searchInput) {
+        searchButton.addEventListener("click", function() {
+            const query = searchInput.value.trim();
+            if (query) {
+                window.location.href = `/search?query=${encodeURIComponent(query)}`;
+            }
+        });
+    }
+});
 </script>
 
 </body>

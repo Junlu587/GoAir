@@ -23,12 +23,13 @@ from django.urls import path, include
 
 from myApp import views
 from myApp.external_api.views import ExternalAPIViewSet
+from myApp.flights.views import search_flights
 from myApp.users.views import check_user
 from myApp.views import api_data, help_view, privacy_view, contact_view, modify_info, logout_view, search_view, \
-    login_view
+    login_view, signup_view
 
 from myApp.views import home, user_page
-from myApp.views import signup_view, search_view, book_flight
+from myApp.views import  search_view, book_flight
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -42,24 +43,23 @@ urlpatterns = [
 
     # 将 externalapi 应用的路由挂载到 /api/external/ 下
     path('api/external/', include('myApp.external_api.urls')),
+    path('api/search', search_flights, name='search'),
 
     path('accounts/', include('allauth.urls')),  # Django allauth 路由
 
     path('search/', search_view, name='search'),  # <-- 重点：name='search'
-
 
     path('notifications/', include('myApp.notifications.urls')),
     path('alerts/', include('myApp.alerts.urls')),  # 添加 alerts 路由
     path('user/', user_page, name='user_page'),  # 用户管理
     path('modify-info/', modify_info, name='modify_info'),
 
-    path('flights/', include('myApp.flights.urls')),  # 航班搜索
+    path('flights/', include('myApp.flights.urls', 'flights')),  # 航班搜索
     path('trips/', include('myApp.trips.urls')),  # 加入 trips 应用
 
     path('help/', help_view, name='help'),
     path('privacy/', privacy_view, name='privacy'),
     path('contact/', contact_view, name='contact'),
-
 
     path('auth/', include('dj_rest_auth.urls')),
     path('auth/registration/', include('dj_rest_auth.registration.urls')),  # 这里很重要

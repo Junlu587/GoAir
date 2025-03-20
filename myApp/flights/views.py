@@ -13,21 +13,48 @@ from decimal import Decimal
 import json
 
 
-@api_view(["POST"])
+@api_view(['GET', 'POST'])
 def search_flights(request):
     """
     Handles POST /api/flights/search/
     Expects JSON body with keys: origin, destination, departure_date, return_date, trip_type, flight_class, airline, sort
     """
-    # Extract parameters
-    origin = request.data.get("origin")
-    destination = request.data.get("destination")
-    departure_date = request.data.get("departure_date")
-    return_date = request.data.get("return_date", "")
-    trip_type = request.data.get("trip_type", "oneway")
-    flight_class = request.data.get("flight_class", "economy")
-    airline = request.data.get("airline", "")
-    sort = request.data.get("sort", "BEST")
+    if request.method == 'GET':
+        # 从 request.GET 中获取参数
+        origin = request.GET.get('origin')
+        destination = request.GET.get('destination')
+        departure_date = request.GET.get('departure_date')
+        return_date = request.GET.get("return_date")
+        # trip_type = request.GET.get("trip_type")
+        flight_class = request.GET.get("flight_class")
+        airline = request.GET.get("airline")
+        # sort = request.GET.get("sort")
+
+        # 示例：根据参数查询数据库
+        # 注意：如果字段名不是 origin/destination/departure_date，需要对应修改
+        flights = Flight.objects.filter(
+            origin=origin,
+            destination=destination,
+            departure_date=departure_date,
+            return_date=return_date,
+            # trip_type=trip_type,
+            flight_class=flight_class,
+            airline=airline,
+        )
+        # 将 QuerySet 转换为可序列化对象 (list of dict)
+        results = list(flights.values())
+
+        return Response({'results': results})
+
+    elif request.method == 'POST':
+        origin = request.data.get("origin")
+        destination = request.data.get("destination")
+        departure_date = request.data.get("departure_date")
+        return_date = request.data.get("return_date", "")
+        trip_type = request.data.get("trip_type", "oneway")
+        flight_class = request.data.get("flight_class", "economy")
+        airline = request.data.get("airline", "")
+        sort = request.data.get("sort", "BEST")
 
     # Validate required params
     if not origin or not destination or not departure_date:

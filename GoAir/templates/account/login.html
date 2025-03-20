@@ -375,42 +375,57 @@
         });
 }
 
-   document.getElementById('login-form').addEventListener('submit', function(e) {
-    e.preventDefault();
+   // 表单提交处理
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const formData = {
+            login: document.getElementById('id_login').value,
+            password: document.getElementById('id_password').value,
+            remember: document.getElementById('id_remember').checked ? 'on' : 'off'
+        };
 
-    const formData = new FormData(this);
-    const data = {
-        login: formData.get('login'),  // 确保匹配 Django Allauth
-        password: formData.get('password'),
-        remember: formData.get('remember') ? "on" : "off"
-    };
-    
-    console.log("Submitting data:", data); // 调试日志
+        try {
+            const response = await fetch('/accounts/login/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: JSON.stringify(formData)
+            });
 
-    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
-    fetch('/accounts/login/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrfToken
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(result => {
-        if (result.token) {
-            document.getElementById('login-message').innerText = 'Login Successful！';
-            window.location.href = '/user_page'; // 登录成功后跳转
-        } else {
-            document.getElementById('login-message').innerText = 'Login Failure：' + (result.detail || 'unknown error');
+            const data = await response.json();
+            
+            if (data.status === 'ok') {
+                window.location.href = data.redirect_url || '/user_page';
+            } else {
+                document.getElementById('login-message').textContent = data.message || 'Login failed';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            document.getElementById('login-message').textContent = 'Network error';
         }
-    })
-    .catch(error => {
-        console.error('Login Failure：', error);
-        document.getElementById('login-message').innerText = 'Login Failure, Network Error';
     });
-});
+
+    // 邮箱验证逻辑
+    document.getElementById('id_login').addEventListener('blur', async () => {
+        const email = document.getElementById('id_login').value.trim();
+        if (!email) return;
+
+        try {
+            const response = await fetch(`/api/check_user/?email=${encodeURIComponent(email)}`);
+            const data = await response.json();
+            
+            document.getElementById('avatarImg').src = data.avatar_url || "{% get_media_prefix %}avatars/default.jpg";
+            
+            if (!data.found) {
+                new bootstrap.Modal(document.getElementById('registerModal')).show();
+            }
+        } catch (error) {
+            console.error('Check user error:', error);
+        }
+    });
 </script>
 </body>
 </html>

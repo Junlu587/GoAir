@@ -228,6 +228,34 @@
             background-color: #214e67 !important; /* 深绿色 */
             color: white;
         }
+        
+         .sort-button {
+            width: 100px; /* 统一按钮宽度 */
+            background-color: #2d6786 !important; /* 绿色 */
+            border: none;
+            transition: 0.3s ease-in-out;
+            color: white;
+            border-radius: 5px; /* 设置按钮的圆角 */
+        }
+
+        .sort-button:hover {
+            background-color: #214e67 !important; /* 深绿色 */
+            color: white;
+        }
+        
+         .filter-button {
+            width: 100px; /* 统一按钮宽度 */
+            background-color: #2d6786 !important; /* 绿色 */
+            border: none;
+            transition: 0.3s ease-in-out;
+            color: white;
+            border-radius: 5px; /* 设置按钮的圆角 */
+        }
+
+        .filter-button:hover {
+            background-color: #214e67 !important; /* 深绿色 */
+            color: white;
+        }
 
         .cancel-button {
             background-color: #6c757d !important; /* 设置取消按钮的背景色为灰色 */
@@ -369,11 +397,11 @@
             <div class="user-circle">
                 {% if request.user.is_authenticated %}
                     {% if user.avatar %}
-                        <a href="{% url 'user' %}">
+                        <a href="{% url 'user_page' %}">
                             <img src="{{ user.avatar.url }}" alt="User Avatar" class="user-avatar">
                         </a>
                     {% else %}
-                        <a href="{% url 'user' %}"
+                        <a href="{% url 'user_page' %}"
                            class="text-decoration-none text-dark d-flex align-items-center justify-content-center"
                            style="width: 70px; height: 70px; border-radius: 50%; background: transparent;">
                             {% if user.username %}
@@ -418,7 +446,7 @@
                 <!--=== END CHANGED 1 ===-->
                 
                 <!-- 两个按钮：Apply Filter 和 Clear Filter -->
-                <button class="btn save-button w-100 mb-2" id="applyFilterBtn">Apply Filter</button>
+                <button class="btn filter-button w-100 mb-2" id="applyFilterBtn">Apply Filter</button>
                 <button class="btn cancel-button w-100" id="clearFilterBtn">Clear Filter</button>
             </div>
         </div>
@@ -435,7 +463,7 @@
                     <option value="duration">Duration</option>
                 </select>
                 <!-- 新增一个 Apply Sort 按钮 -->
-                <button class="btn save-button ms-2" id="applySortBtn">Apply Sort</button>
+                <button class="btn sort-button ms-2" id="applySortBtn">Apply Sort</button>
             </div>
 
             <!-- 搜索结果 -->
@@ -463,8 +491,8 @@
                                     <td>{{ flight.flight_number }}</td>
                                     <td>{{ flight.origin }}</td>
                                     <td>{{ flight.destination }}</td>
-                                    <td>{{ flight.date }}</td>
-                                    <td>{{ flight.time.departure }}</td>
+                                    <td>{{ flight.departure_date }}</td>
+                                    <td>{{ flight.departure_time }}</td>
                                     <td>{{ flight.price }} {{ flight.currency }}</td>
                                     <td>
                                         <button
@@ -482,7 +510,7 @@
                         </table>
 
                         <!-- 分页按钮 -->
-                        <div class="footer-btn-container">
+                        <div class="footer-btn-container pagination">
                             {% if trips.has_previous %}
                                 <a href="?page={{ trips.previous_page_number }}" class="footer-btn-custom">Page Up</a>
                             {% else %}
@@ -508,21 +536,21 @@
     </div>
 </div>
 
-<!-- 下面是我们新加的“测试按钮”区域，只在开发/预览时使用,完成开发时记得删除-->
-<div class="text-center" style="margin-top: 20px;">
-    <button class="btn btn-primary m-2"
-            onclick="bootstrap.Modal.getOrCreateInstance(document.getElementById('loginNeededModal')).show()">
-        Show Login Needed Modal
-    </button>
-    <button class="btn btn-primary m-2"
-            onclick="bootstrap.Modal.getOrCreateInstance(document.getElementById('confirmSaveModal')).show()">
-        Show Confirm Save Modal
-    </button>
-    <button class="btn btn-primary m-2"
-            onclick="bootstrap.Modal.getOrCreateInstance(document.getElementById('saveSuccessModal')).show()">
-        Show Save Success Modal
-    </button>
-</div>
+{#<!-- 下面是我们新加的“测试按钮”区域，只在开发/预览时使用,完成开发时记得删除-->#}
+{#<div class="text-center" style="margin-top: 20px;">#}
+{#    <button class="btn btn-primary m-2"#}
+{#            onclick="bootstrap.Modal.getOrCreateInstance(document.getElementById('loginNeededModal')).show()">#}
+{#        Show Login Needed Modal#}
+{#    </button>#}
+{#    <button class="btn btn-primary m-2"#}
+{#            onclick="bootstrap.Modal.getOrCreateInstance(document.getElementById('confirmSaveModal')).show()">#}
+{#        Show Confirm Save Modal#}
+{#    </button>#}
+{#    <button class="btn btn-primary m-2"#}
+{#            onclick="bootstrap.Modal.getOrCreateInstance(document.getElementById('saveSuccessModal')).show()">#}
+{#        Show Save Success Modal#}
+{#    </button>#}
+{#</div>#}
 
 
 <!-- =========== 模态框：未登录时提示登录 =========== -->
@@ -591,6 +619,7 @@
     // 页面加载后，给所有 .save-button 绑定点击事件
     document.querySelectorAll('.save-button').forEach(btn => {
         btn.addEventListener('click', () => {
+            event.stopPropagation();  // 阻止事件冒泡
             let flightNumber = btn.dataset.flightnumber;
             let airline = btn.dataset.airline;
 
@@ -617,7 +646,7 @@
 
     // 发起请求保存航班
     function saveFlight(flightNumber) {
-        fetch("{% url 'save_trip' %}", {
+        fetch("{% url 'flights:save_trip' %}", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -687,6 +716,7 @@
 
     // Apply Filter 按钮
     document.getElementById('applyFilterBtn')?.addEventListener('click', function () {
+        event.stopPropagation();  // 阻止事件冒泡
         applyFilterAndSort();
     });
 
@@ -706,6 +736,7 @@
 
     // Apply Sort 按钮
     document.getElementById('applySortBtn')?.addEventListener('click', function () {
+        event.stopPropagation();  // 阻止事件冒泡
         applyFilterAndSort();
     });
 
@@ -777,24 +808,59 @@
     // ============ 5. 如果有一个“flight-search-form”提交，需要拦截并异步请求 ============
 
     // 若页面上没有此表单，可忽略或删除这段
-    document.getElementById('flight-search-form')?.addEventListener('submit', function (event) {
+    document.getElementById('flight_search-form')?.addEventListener('submit', function (event) {
         event.preventDefault(); // 阻止默认表单提交
 
         const origin = document.getElementsByName('from')[0].value;
         const destination = document.getElementsByName('to')[0].value;
-        let apiUrl = "{% url 'flight-search' %}?origin=" + encodeURIComponent(origin) + "&destination=" + encodeURIComponent(destination) + "&type=oneway";
+        let apiUrl = "{% url 'flight_search' %}?origin=" + encodeURIComponent(origin) + "&destination=" + encodeURIComponent(destination) + "&type=oneway";
 
         fetch(apiUrl)
             .then(response => response.json())
             .then(data => {
                 // 仅做示例，显示在某个区域
-                document.getElementById('search-results').innerText = JSON.stringify(data, null, 2);
+                document.getElementById('search_results').innerText = JSON.stringify(data, null, 2);
             })
             .catch(error => {
                 console.error('Error:', error);
-                document.getElementById('search-results').innerText = 'Error fetching search results.';
+                document.getElementById('search_results').innerText = 'Error fetching search results.';
             });
     });
+    
+    document.addEventListener("DOMContentLoaded", function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const requestData = {
+        origin: urlParams.get("origin"),
+        destination: urlParams.get("destination"),
+        departure_date: urlParams.get("departure_date")
+    };
+
+    fetch("/api/search", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        const resultsContainer = document.getElementById("flight-results");
+            if (data.results && data.results.length > 0) {
+                resultsContainer.innerHTML = data.results.map(flight => `
+                    <tr>
+                        <td>${flight.airline}</td>
+                        <td>${flight.flight_number}</td>
+                        <td>${flight.origin}</td>
+                        <td>${flight.destination}</td>
+                        <td>${flight.date}</td>
+                        <td>${flight.price}</td>
+                    </tr>
+                `).join("");
+    }else {
+                resultsContainer.innerHTML = "<tr><td colspan='6'>No flights found.</td></tr>";
+            }
+            })
+        .catch(error => console.error("Error fetching search results:", error));
+});
+
 </script>
 
 </body>

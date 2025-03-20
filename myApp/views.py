@@ -1,19 +1,23 @@
 import json
 
+import requests
 from allauth.account.views import login
 from allauth.socialaccount.forms import SignupForm
 from django.contrib import messages
 from django.contrib.auth import logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
 from django.middleware.csrf import get_token
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, request
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.reverse import reverse
 
 from GoAir import settings
 from myApp.alerts.models import Alert
+from myApp.external_api.views import ExternalAPIViewSet
+from myApp.flights.models import Flight
 from myApp.notifications.models import Notification
 from myApp.trips.models import Trip
 
@@ -90,8 +94,33 @@ def signup_view(request):
 
 # 航班搜索页面
 def search_view(request):
-    return render(request, "search.html")
+    # api_url = request.build_absolute_uri(reverse("flight_search"))
+    # response = requests.get(api_url, params=request.GET)  # 直接向 API 发送请求
+    # flights = response.json()
+    # # 调试信息
+    # # print(f"API URL: {api_url}")  # 打印 API 请求地址
+    # # print(f"Response Status Code: {response.status_code}")  # 打印 API 响应状态码
+    # # print(f"Flights Data: {flights}")  # 打印 API 返回的数据
+    #
+    # if response.status_code != 200:
+    #     return render(request, "search.html", {"flights": [], "error": "API 请求失败"})
+    #
+    # # 3. 确保数据结构正确
+    # flights_list = flights if isinstance(flights, list) else []
+    #
+    # paginator = Paginator(flights_list, 6)
+    # page_number = request.GET.get("page", 1)
+    # page_obj = paginator.get_page(page_number)
+    # # print(f"API 响应状态码: {response.status_code}")
+    # # print(f"API 返回的原始数据: {flights}")
+    # return render(request, "search.html", {"flights": page_obj})
+    origin = request.GET.get("origin", "")
+    destination = request.GET.get("destination", "")
+    date = request.GET.get("date", "")
 
+    flights = Flight.objects.filter(origin=origin, destination=destination, departure_date=date)
+
+    return render(request, "search.html", {"flights": flights})
 
 # 机票预订页面
 def book_flight(request):
