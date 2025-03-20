@@ -34,7 +34,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     "goair.up.railway.app",
-    "my-app.onrender.com",
+    "goair.onrender.com",
     "127.0.0.1",  # Local development
     "localhost"  # Local development
 ]
