@@ -20,25 +20,20 @@ from myApp.external_api.views import ExternalAPIViewSet
 from myApp.flights.models import Flight
 from myApp.notifications.models import Notification
 from myApp.trips.models import Trip
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework import viewsets
 
-@method_decorator(csrf_exempt, name='dispatch')
-class ExternalAPIViewSet(viewsets.ViewSet):
 
 # 主页
-    def home(request):
-        if request.user.is_authenticated:
-            trips = Trip.objects.filter(user=request.user).order_by('-departure_date')
-            alerts = Alert.objects.filter(user=request.user).order_by('-departure_date')
-            notifications = Notification.objects.filter(user=request.user).order_by('-flight__departure_date')
-        else:
-            trips = []
-            alerts = []
-            notifications = []
+def home(request):
+    if request.user.is_authenticated:
+        trips = Trip.objects.filter(user=request.user).order_by('-departure_date')
+        alerts = Alert.objects.filter(user=request.user).order_by('-departure_date')
+        notifications = Notification.objects.filter(user=request.user).order_by('-flight__departure_date')
+    else:
+        trips = []
+        alerts = []
+        notifications = []
 
-        return render(request, 'home.html', {
+    return render(request, 'home.html', {
         'trips': trips,
         'alerts': alerts,
         'notifications': notifications,
