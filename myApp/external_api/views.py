@@ -14,10 +14,15 @@ class ExternalAPIViewSet(viewsets.ViewSet):
         GET /api/external/flight-search/
         e.g. ?origin=NYCA&destination=JFK&type=oneway&date=2025-04-01
         """
-        origin = request.query_params.get("origin", "NYCA")
-        destination = request.query_params.get("destination", "")
+        origin = request.query_params.get("origin")
+        destination = request.query_params.get("destination")
+        date = request.query_params.get("departure_date")
+
+        if not origin or not destination or not date:
+            return Response({"error": "origin, destination, and date are required"}, status=400)
+
+        # Use defaults for other parameters
         trip_type = request.query_params.get("type", "oneway")
-        date = request.query_params.get("date", "2025-04-01")
         return_date = request.query_params.get("return_date", "")
         flight_class = request.query_params.get("flight_class", "economy")
         airline = request.query_params.get("airline", "")

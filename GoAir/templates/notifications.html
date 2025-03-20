@@ -208,7 +208,7 @@
         <!-- 🔵 左侧部分（LOGO ） -->
         <div class="col-lg-3 col-md-4">
             <div class="logo-container">
-                <img src="{% static 'images/logo.png' %}" alt="Logo" width="50">
+{#                <img src="{% static 'images/logo.png' %}" alt="Logo" width="50">#}
                 <h3 class="logo-text ms-2">Go<span>!Air</span></h3>
             </div>
         </div>
@@ -236,7 +236,7 @@
             <!-- 📨 未读通知 -->
             <div class="notification-box">
                 <h4>Unread Notifications</h4>
-                {{% for notification in unread_notifications %}
+                {% for notification in unread_notifications %}
                 <div class="notification-item"
                      data-id="{{ notification.id }}"
                      data-flight="{{ notification.flight.flight_number }}"

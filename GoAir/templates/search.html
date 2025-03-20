@@ -1,188 +1,151 @@
-<!--加载logo图片-->
+<!-- Revised search.html -->
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <!-- 设置网页的字符集，保证支持多种语言 -->
     <meta charset="UTF-8">
-    <!-- 让网页适配移动端，保证在手机、平板和 PC 上都能正常显示 -->
+    <!-- 让网页适配移动端 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GoAir - Search Results</title>
-
-    <!-- 引入 Bootstrap 5.3 CSS（用于美化页面和布局） -->
+    <!-- 引入 Bootstrap 5.3 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <!-- 引入 Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-
     <style>
-        /* 🌈 让整个网页的背景变成渐变色，提升视觉效果 */
         body {
-            background: linear-gradient(to right, #84a9ac, #3b6978, #204051); /* 渐变背景 */
-            color: white; /* 让所有文本默认变为白色 */
-            font-family: Arial, sans-serif; /* 统一网页字体，保证美观 */
+            background: linear-gradient(to right, #84a9ac, #3b6978, #204051);
+            color: white;
+            font-family: Arial, sans-serif;
         }
-
-        /* 💻 让整个页面适应全屏，而不是固定宽度 */
         .container-fluid {
-            width: 100%; /* 让网页填充整个屏幕 */
-            padding: 20px; /* 设置内边距，避免内容太紧凑 */
+            width: 100%;
+            padding: 20px;
         }
-
-        /* 🔵 左上角 LOGO 样式 */
         .logo-container {
             display: flex;
             align-items: center;
             margin-top: 10px;
         }
-
         .logo-container img {
-            width: 60px; /* LOGO 图片大小 */
+            width: 60px;
             height: auto;
         }
-
         .logo-text {
             font-size: 28px;
             font-weight: bold;
         }
-
         .logo-text span {
-            color: #007bff; /* `!` 变成蓝色 */
+            color: #007bff;
         }
-
         .logo-text .air {
-            color: #007bff; /* `Air` 变成蓝色 */
+            color: #007bff;
         }
-
-        /* 🔍 搜索框（增加搜索按钮） */
         .search-bar-container {
             display: flex;
             width: 100%;
-            justify-content: center; /* 让搜索框在页面中水平居中 */
-            align-items: center; /* 让搜索框垂直居中 */
-            margin-top: 10px; /* 可以调整与上方的间距 */
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
         }
-
-        /* 🔍 顶部搜索栏样式 */
         .search-bar {
-            height: 45px; /* 统一高度 */
-            width: 100%; /*让搜索栏占满整列 */
-            padding: 12px; /* 让输入框更舒适 */
-            border: none; /* 去除边框 */
-            border-radius: 20px 0 0 20px; /* 让搜索框边角变得圆滑 */
-            margin-bottom: 20px; /* 设置与下方的间距 */
-            \margin-top: 10px; /* 可以调整与上方的间距 */
-            text-align: center; /* 让文字居中 */
+            height: 45px;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 20px 0 0 20px;
+            margin-bottom: 20px;
+            text-align: center;
             font-size: 18px;
-            background: white; /* 设置搜索框背景颜色 */
-            color: #204051; /* 设置字体颜色 */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 给搜索框添加阴影 */
-            flex-grow: 1; /* 让搜索框自动填充可用空间 */
+            background: white;
+            color: #204051;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            flex-grow: 1;
         }
-
         .search-btn {
-            height: 45px; /* 统一高度 */
+            height: 45px;
             padding: 12px 20px;
-            border-radius: 0 20px 20px 0; /* 让右侧圆角 */
+            border-radius: 0 20px 20px 0;
             border: none;
             background-color: #0366d4;
             color: white;
             font-size: 18px;
             cursor: pointer;
             transition: 0.3s;
-            /*margin-left: -5px;  让按钮更贴合搜索框 */
-            align-items: center; /* 让按钮内的图标垂直居中 */
-            margin-bottom: 20px; /* 设置与下方的间距 */
-            margin-top: 10px; /* 可以调整与上方的间距 */
+            align-items: center;
+            margin-bottom: 20px;
+            margin-top: 10px;
         }
-
         .search-btn:hover {
-            background-color: #0056b3; /* 悬停时颜色变深 */
+            background-color: #0056b3;
         }
-
-        /* 👤 右上角用户头像样式 */
         .user-circle {
-            width: 100px; /* 头像大小 */
+            width: 100px;
             height: 100px;
-            border-radius: 50%; /* 让头像变成圆形 */
+            border-radius: 50%;
             background-color: white;
             color: #204051;
             text-align: center;
-            display: flex; /* 让内容居中 */
-            align-items: center; /* 垂直居中 */
-            justify-content: center; /* 水平居中 */
-            line-height: 70px; /* 让文字垂直居中 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 70px;
             font-weight: bold;
             margin-top: -10px;
             margin-left: 250px;
             margin-right: 100px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* 头像添加阴影 */
-            /* 🚀 让头像靠右对齐 */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
             position: relative;
         }
-
         .user-avatar {
-            width: 70px; /* 头像图片大小 */
+            width: 70px;
             height: 70px;
             border-radius: 50%;
             object-fit: cover;
         }
-
-        /* 🎛️ 让 Trips 和 Setting 按钮靠近头像 */
         .user-buttons {
             display: flex;
             justify-content: flex-end;
-            gap: 20px; /* 按钮间距 */
+            gap: 20px;
             position: relative;
-            margin-top: -65px; /* 让按钮稍微离头像有点距离 */
+            margin-top: -65px;
             margin-right: 240px;
-            margin-bottom: 25px; /* 减小按钮与下方的间距 */
+            margin-bottom: 25px;
         }
-
-        /* 🏷️ 按钮样式 */
         .btn-custom {
-            border-radius: 10px; /* 圆角按钮 */
+            border-radius: 10px;
             padding: 5px 5px;
             font-size: 14px;
             font-weight: bold;
-            color: white !important; /* 让按钮文字变白 */
-            border: 1px solid white !important; /* 白色边框 */
-            background-color: transparent; /* 透明背景 */
+            color: white !important;
+            border: 1px solid white !important;
+            background-color: transparent;
             transition: all 0.3s ease-in-out;
-            min-width: 120px; /* 统一按钮宽度 */
+            min-width: 120px;
             text-align: center;
         }
-
-        /* 🚀 按钮悬停效果 */
         .user-buttons .btn:hover {
             background-color: rgba(255, 255, 255, 0.2) !important;
             border-color: white !important;
         }
-
-        /* ========== 左侧 Filter ========== */
         .filter-section {
-            background-color: #e9ecef; /* 统一为和搜索结果相同的浅灰色 */
+            background-color: #e9ecef;
             color: #204051;
             border-radius: 10px;
             padding: 15px;
             margin-bottom: 20px;
         }
-
         .filter-section h5 {
             color: #204051;
             font-weight: bold;
         }
-
-        /* ========== 右侧 “Sorted by” ========== */
         .sort-section {
-            background-color: #e9ecef; /* 若需要同色背景，可加上这一行 */
+            background-color: #e9ecef;
             padding: 15px;
             border-radius: 10px;
             margin-bottom: 20px;
             color: #204051;
         }
-
-        /* ========= 搜索结果容器及表格的样式 ========= */
         .search-box {
             background-color: #e9ecef;
             padding: 20px;
@@ -190,200 +153,162 @@
             border: none;
             box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.3);
         }
-
         .search-box-container {
             margin: 25px auto 20px;
             max-width: 1200px !important;
         }
-
-        /* 标题样式 */
         .search-results-title {
             text-align: center;
             color: #204051;
             font-size: 22px;
             font-weight: bold;
         }
-
-        /* 表格内容样式 */
         .search-result-content {
             color: #204051;
             font-size: 16px;
         }
-
         .table thead tr th {
             background-color: #e9ecef;
             color: #204051;
         }
-
         .save-button {
-            width: 100px; /* 统一按钮宽度 */
-            background-color: #2d6786 !important; /* 绿色 */
+            width: 100px;
+            background-color: #2d6786 !important;
             border: none;
             transition: 0.3s ease-in-out;
             color: white;
-            border-radius: 5px; /* 设置按钮的圆角 */
+            border-radius: 5px;
         }
-
         .save-button:hover {
-            background-color: #214e67 !important; /* 深绿色 */
+            background-color: #214e67 !important;
             color: white;
         }
-        
-         .sort-button {
-            width: 100px; /* 统一按钮宽度 */
-            background-color: #2d6786 !important; /* 绿色 */
+        .sort-button {
+            width: 100px;
+            background-color: #2d6786 !important;
             border: none;
             transition: 0.3s ease-in-out;
             color: white;
-            border-radius: 5px; /* 设置按钮的圆角 */
+            border-radius: 5px;
         }
-
         .sort-button:hover {
-            background-color: #214e67 !important; /* 深绿色 */
+            background-color: #214e67 !important;
             color: white;
         }
-        
-         .filter-button {
-            width: 100px; /* 统一按钮宽度 */
-            background-color: #2d6786 !important; /* 绿色 */
+        .filter-button {
+            width: 100px;
+            background-color: #2d6786 !important;
             border: none;
             transition: 0.3s ease-in-out;
             color: white;
-            border-radius: 5px; /* 设置按钮的圆角 */
+            border-radius: 5px;
         }
-
         .filter-button:hover {
-            background-color: #214e67 !important; /* 深绿色 */
+            background-color: #214e67 !important;
             color: white;
         }
-
         .cancel-button {
-            background-color: #6c757d !important; /* 设置取消按钮的背景色为灰色 */
-            width: 100px; /* 统一按钮宽度 */
-            border-radius: 5px; /* 设置按钮的圆角 */
+            background-color: #6c757d !important;
+            width: 100px;
+            border-radius: 5px;
             border: none;
             transition: 0.3s ease-in-out;
             color: white;
         }
-
         .cancel-button:hover {
-            background-color: #5a6268 !important; /* 鼠标悬停时背景色变深 */
+            background-color: #5a6268 !important;
         }
-
-        /* 📌 底部按钮容器 */
         .footer-btn-container {
             display: flex;
-            justify-content: center; /* 让按钮居中 */
-            gap: 20px; /* 按钮间隔 */
-            position: fixed; /* 让按钮固定在底部 */
-            bottom: 100px; /* 距离底部 20px */
-            left: 50%; /* 让按钮组居中 */
-            transform: translateX(-50%); /* 修正居中 */
-            width: 100%; /* 让按钮组适应宽度 */
-            background: transparent; /* 防止背景影响 */
+            justify-content: center;
+            gap: 20px;
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            background: transparent;
             padding: 10px;
         }
-
-        /* 📌 普通文本样式（不可点击） */
         .footer-page-indicator {
             font-size: 16px;
             font-weight: bold;
             color: #ffffff;
             padding: 5px 15px;
             background-color: transparent;
-            border: none; /* 确保没有边框 */
-            cursor: default; /* 禁用鼠标指针 */
+            border: none;
+            cursor: default;
         }
-
-        /* 📌 禁用的分页按钮样式 */
         .footer-btn-disabled {
             font-size: 16px;
             font-weight: bold;
-            color: rgba(255, 255, 255, 0.5); /* 让禁用的按钮颜色变浅 */
+            color: rgba(255, 255, 255, 0.5);
             padding: 8px 20px;
-            background-color: rgba(255, 255, 255, 0.1); /* 轻微背景色 */
+            background-color: rgba(255, 255, 255, 0.1);
             border-radius: 5px;
-            cursor: not-allowed; /* 鼠标变成禁止状态 */
+            cursor: not-allowed;
         }
-
-
         .footer-btn-custom {
-            display: inline-block; /* 让 `<a>` 具有按钮的属性 */
+            display: inline-block;
             border-radius: 5px;
             padding: 8px 20px;
-            background-color: #697579 !important; /* 按钮背景颜色 */
-            border-color: #ffffff !important; /* 按钮边框颜色 */
+            background-color: #697579 !important;
+            border-color: #ffffff !important;
             color: #e4eaed !important;
             cursor: pointer;
             transition: all 0.3s ease-in-out;
             text-decoration: none !important;
         }
-
         .footer-btn-custom:hover {
-            background-color: #445156 !important; /* 鼠标悬浮时变深 */
-            color: #ffffff !important; /* 让文字变亮 */
+            background-color: #445156 !important;
+            color: #ffffff !important;
             border-color: #ffffff !important;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2) !important; /* 添加轻微阴影 */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2) !important;
         }
-
-        /* =========== 模态框自定义样式（可按需调整） =========== */
         .modal-content {
             background-color: #fff;
             color: #204051;
             border-radius: 8px;
         }
-
         .modal-header, .modal-footer {
             background-color: #f8f9fa;
         }
-
         .modal-title {
             font-weight: bold;
         }
-
         .modal-body p {
             margin: 0.5rem 0;
         }
-
         .model-btn-cancel {
-            background-color: #6c757d !important; /* 设置取消按钮的背景色为灰色 */
-            border-radius: 5px; /* 设置按钮的圆角 */
+            background-color: #6c757d !important;
+            border-radius: 5px;
             color: white;
         }
-
         .model-btn-cancel:hover {
-            background-color: #5a6268 !important; /* 鼠标悬停时背景色变深 */
+            background-color: #5a6268 !important;
             color: white;
         }
-
         .model-btn-primary {
-            background-color: #2d6786 !important; /* 设置按钮的背景颜色为绿色 */
+            background-color: #2d6786 !important;
             color: white;
         }
-
         .model-btn-primary:hover {
-            background-color: #214e67 !important; /* 设置鼠标悬停时按钮的背景色为深绿色 */
+            background-color: #214e67 !important;
             color: white;
         }
-
     </style>
 </head>
 <body>
-
-<!-- 📌 让整个页面使用 `container-fluid` 适配全屏 -->
 <div class="container-fluid mt-4">
     <div class="row">
-        <!-- 🔵 左侧部分（LOGO ） -->
+        <!-- 左侧：Logo -->
         <div class="col-lg-3 col-md-4">
             <div class="logo-container">
-                <img src="{% static 'images/logo.png' %}" alt="Logo" width="50">
                 <h3 class="logo-text ms-2">Go<span>!Air</span></h3>
             </div>
         </div>
-
-        <!-- ✈ 中间部分：顶部搜索栏 + （替换成搜索结果） -->
+        <!-- 中间：搜索栏 -->
         <div class="col-lg-6 col-md-8">
-            <!-- 保留顶部搜索栏 -->
             <div class="search-bar-container w-100">
                 <div class="d-flex align-items-center w-100">
                     <input type="text" class="search-bar" placeholder="Search">
@@ -391,8 +316,7 @@
                 </div>
             </div>
         </div>
-
-        <!-- 👤 右侧部分（用户信息 + 设置） -->
+        <!-- 右侧：用户信息 -->
         <div class="col-lg-3 col-md-12 text-end">
             <div class="user-circle">
                 {% if request.user.is_authenticated %}
@@ -401,8 +325,7 @@
                             <img src="{{ user.avatar.url }}" alt="User Avatar" class="user-avatar">
                         </a>
                     {% else %}
-                        <a href="{% url 'user_page' %}"
-                           class="text-decoration-none text-dark d-flex align-items-center justify-content-center"
+                        <a href="{% url 'user_page' %}" class="text-decoration-none text-dark d-flex align-items-center justify-content-center"
                            style="width: 70px; height: 70px; border-radius: 50%; background: transparent;">
                             {% if user.username %}
                                 {{ user.username|slice:":1"|upper }}
@@ -417,43 +340,34 @@
                     </a>
                 {% endif %}
             </div>
-
-            <!-- 将 Trips 按钮替换为 “Back to Home” -->
             <div class="user-buttons">
                 <a href="{% url 'home' %}" class="btn btn-custom">Home</a>
             </div>
         </div>
     </div>
 </div>
-
-<!-- 主体：左侧 Filter，右侧 Sorted by + 搜索结果 -->
+<!-- 主体内容 -->
 <div class="container-fluid">
     <div class="row">
-        <!-- 左侧：Filter -->
+        <!-- 左侧 Filter -->
         <div class="col-md-3">
             <div class="filter-section">
                 <h5>Filter</h5>
                 <label for="filterAirline" class="form-label">Airline</label>
                 <input type="text" id="filterAirline" class="form-control mb-3" placeholder="e.g. UA, AA">
-                
-                <!--=== CHANGED 1: 添加舱位选择下拉框 ===-->
+                <!-- 舱位选择下拉框 -->
                 <label for="flightClass" class="form-label">Flight Class</label>
                 <select id="flightClass" class="form-select mb-3">
                     <option value="">Any</option>
                     <option value="economy">Economy</option>
                     <option value="business">Business</option>
                 </select>
-                <!--=== END CHANGED 1 ===-->
-                
-                <!-- 两个按钮：Apply Filter 和 Clear Filter -->
                 <button class="btn filter-button w-100 mb-2" id="applyFilterBtn">Apply Filter</button>
                 <button class="btn cancel-button w-100" id="clearFilterBtn">Clear Filter</button>
             </div>
         </div>
-
-        <!-- 右侧：先 Sorted by，后 搜索结果 -->
+        <!-- 右侧 Sorted by + 搜索结果 -->
         <div class="col-md-9">
-            <!-- Sorted by 模块 -->
             <div class="sort-section">
                 <label for="sortOption" class="form-label"><strong>Sorted by</strong></label>
                 <select id="sortOption" class="form-select w-25 d-inline-block">
@@ -462,11 +376,8 @@
                     <option value="departure_time">Departure Time</option>
                     <option value="duration">Duration</option>
                 </select>
-                <!-- 新增一个 Apply Sort 按钮 -->
                 <button class="btn sort-button ms-2" id="applySortBtn">Apply Sort</button>
             </div>
-
-            <!-- 搜索结果 -->
             <div class="search-box-container">
                 <div class="search-box">
                     <h4 class="search-results-title">Flight Search Results</h4>
@@ -475,32 +386,25 @@
                             <thead>
                             <tr>
                                 <th>Airline</th>
-                                <th>Flight Number</th>
-                                <th>Origin</th>
-                                <th>Destination</th>
+                                <th>Route</th>
                                 <th>Date</th>
                                 <th>Departure Time</th>
+                                <th>Arrival Time</th>
                                 <th>Price</th>
                                 <th>Operation</th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="flight-results">
                             {% for flight in flights %}
                                 <tr>
                                     <td>{{ flight.airline }}</td>
-                                    <td>{{ flight.flight_number }}</td>
-                                    <td>{{ flight.origin }}</td>
-                                    <td>{{ flight.destination }}</td>
-                                    <td>{{ flight.departure_date }}</td>
-                                    <td>{{ flight.departure_time }}</td>
-                                    <td>{{ flight.price }} {{ flight.currency }}</td>
+                                    <td>{{ flight.route }}</td>
+                                    <td>{{ flight.date }}</td>
+                                    <td>{{ flight.time.departure }}</td>
+                                    <td>{{ flight.time.arrival }}</td>
+                                    <td>{{ flight.price.amount }} {{ flight.price.currency }}</td>
                                     <td>
-                                        <button
-                                                type="button"
-                                                class="btn save-button"
-                                                data-flightnumber="{{ flight.flight_number }}"
-                                                data-airline="{{ flight.airline }}"
-                                        >
+                                        <button type="button" class="btn save-button" data-route="{{ flight.route }}" data-airline="{{ flight.airline }}">
                                             Save
                                         </button>
                                     </td>
@@ -508,19 +412,15 @@
                             {% endfor %}
                             </tbody>
                         </table>
-
-                        <!-- 分页按钮 -->
                         <div class="footer-btn-container pagination">
                             {% if trips.has_previous %}
                                 <a href="?page={{ trips.previous_page_number }}" class="footer-btn-custom">Page Up</a>
                             {% else %}
                                 <span class="footer-btn-disabled">Page Up</span>
                             {% endif %}
-
                             <span class="footer-page-indicator">
                                 Page {{ trips.number }} of {{ trips.paginator.num_pages }}
                             </span>
-
                             {% if trips.has_next %}
                                 <a href="?page={{ trips.next_page_number }}" class="footer-btn-custom">Page Down</a>
                             {% else %}
@@ -535,25 +435,7 @@
         </div>
     </div>
 </div>
-
-{#<!-- 下面是我们新加的“测试按钮”区域，只在开发/预览时使用,完成开发时记得删除-->#}
-{#<div class="text-center" style="margin-top: 20px;">#}
-{#    <button class="btn btn-primary m-2"#}
-{#            onclick="bootstrap.Modal.getOrCreateInstance(document.getElementById('loginNeededModal')).show()">#}
-{#        Show Login Needed Modal#}
-{#    </button>#}
-{#    <button class="btn btn-primary m-2"#}
-{#            onclick="bootstrap.Modal.getOrCreateInstance(document.getElementById('confirmSaveModal')).show()">#}
-{#        Show Confirm Save Modal#}
-{#    </button>#}
-{#    <button class="btn btn-primary m-2"#}
-{#            onclick="bootstrap.Modal.getOrCreateInstance(document.getElementById('saveSuccessModal')).show()">#}
-{#        Show Save Success Modal#}
-{#    </button>#}
-{#</div>#}
-
-
-<!-- =========== 模态框：未登录时提示登录 =========== -->
+<!-- 模态框：未登录提示 -->
 <div class="modal fade" id="loginNeededModal" tabindex="-1" aria-labelledby="loginNeededModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -570,8 +452,7 @@
         </div>
     </div>
 </div>
-
-<!--- =========== 模态框：确认保存航班 =========== -->
+<!-- 模态框：确认保存航班 -->
 <div class="modal fade" id="confirmSaveModal" tabindex="-1" aria-labelledby="confirmSaveModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -588,8 +469,7 @@
         </div>
     </div>
 </div>
-
-<!--- =========== 模态框：保存成功提示 =========== -->
+<!-- 模态框：保存成功提示 -->
 <div class="modal fade" id="saveSuccessModal" tabindex="-1" aria-labelledby="saveSuccessModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -605,87 +485,65 @@
         </div>
     </div>
 </div>
-
-<!-- 📌 引入 Bootstrap 5.3 JavaScript（用于交互效果） -->
+<!-- 引入 Bootstrap 5.3 JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- 保留原有脚本，若无对应的 flight-search-form 可忽略或删除 -->
 <script>
-    // 是否登录（从后端注入）
+    // 登录状态由后端注入
     const isLoggedIn = {{ request.user.is_authenticated|yesno:"true,false" }};
-
-    // ============ 1. 保存航班按钮逻辑（登录校验 + 弹出模态） ============
-
-    // 页面加载后，给所有 .save-button 绑定点击事件
+    // 保存航班按钮事件绑定
     document.querySelectorAll('.save-button').forEach(btn => {
-        btn.addEventListener('click', () => {
-            event.stopPropagation();  // 阻止事件冒泡
-            let flightNumber = btn.dataset.flightnumber;
-            let airline = btn.dataset.airline;
-
+        btn.addEventListener('click', event => {
+            event.stopPropagation();
+            const route = btn.dataset.route;
+            const airline = btn.dataset.airline;
             if (!isLoggedIn) {
-                // 未登录 => 显示“请登录”提示模态框
                 let loginModal = new bootstrap.Modal(document.getElementById('loginNeededModal'));
                 loginModal.show();
             } else {
-                // 已登录 => 显示“确认保存”模态框
                 let confirmModal = new bootstrap.Modal(document.getElementById('confirmSaveModal'));
                 document.getElementById('confirmSaveText').innerText =
-                    `Do you want to save flight ${flightNumber} (${airline}) to your trip list?`;
-
-                // 用户点击“Save”时，调用后端保存航班
+                    `Do you want to save flight on route ${route} (${airline}) to your trip list?`;
                 const confirmBtn = document.getElementById('confirmSaveBtn');
                 confirmBtn.onclick = function () {
-                    saveFlight(flightNumber);
+                    saveFlight(route);
                     confirmModal.hide();
                 };
                 confirmModal.show();
             }
         });
     });
-
     // 发起请求保存航班
-    function saveFlight(flightNumber) {
+    function saveFlight(route) {
         fetch("{% url 'flights:save_trip' %}", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "X-CSRFToken": "{{ csrf_token }}"
             },
-            body: JSON.stringify({
-                // 根据后端需求传递字段，这里仅示例 flight_number
-                flight_number: flightNumber
-            })
+            body: JSON.stringify({ route: route })
         })
-            .then(response => response.json())
-            .then(data => {
-                if (data.saved_trip_id) {
-                    // 保存成功 => 显示“保存成功”模态框
-                    document.getElementById('saveSuccessText').innerText =
-                        `Flight ${flightNumber} saved successfully! You can check it in your trip list.`;
-                    let successModal = new bootstrap.Modal(document.getElementById('saveSuccessModal'));
-                    successModal.show();
-                } else {
-                    alert("Error saving flight: " + JSON.stringify(data));
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert("Error saving flight: " + error);
-            });
+        .then(response => response.json())
+        .then(data => {
+            if (data.saved_trip_id) {
+                document.getElementById('saveSuccessText').innerText =
+                    `Flight on route ${route} saved successfully! Check your trip list.`;
+                let successModal = new bootstrap.Modal(document.getElementById('saveSuccessModal'));
+                successModal.show();
+            } else {
+                alert("Error saving flight: " + JSON.stringify(data));
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("Error saving flight: " + error);
+        });
     }
-
-
-    // ============ 2. 统一的筛选 & 排序逻辑 ============
-
-    // 点击按钮时，调用这个函数，把当前输入的 Airline 和 Sort 选项拼成查询参数并请求后端
+    // 筛选与排序逻辑
     function applyFilterAndSort() {
-        // ========== 读取 flight_class (修改处) ==========
-        const flightClass = document.getElementById('filterClass').value;
-        // ========== 修改结束 ==========
+        // 使用正确的ID获取 Flight Class
+        const flightClass = document.getElementById('flightClass').value;
         const airline = document.getElementById('filterAirline').value.trim();
         const sortOption = document.getElementById('sortOption').value;
-
         let queryParams = [];
         if (flightClass) {
             queryParams.push(`flight_class=${encodeURIComponent(flightClass)}`);
@@ -697,105 +555,69 @@
             queryParams.push(`sort=${encodeURIComponent(sortOption)}`);
         }
         let queryString = queryParams.length ? '?' + queryParams.join('&') : '';
-
-        // 发送 GET 请求到后端接口 (示例 URL: /api/flights/filter_and_sort_flights/)
-        fetch(`/api/flights/filter_and_sort_flights/${queryString}`, {
-            method: 'GET'
-        })
+        fetch(`/api/flights/filter_and_sort_flights/${queryString}`, { method: 'GET' })
             .then(response => response.json())
             .then(data => {
-                // data 应该是后端返回的航班列表
                 renderFlightTable(data);
             })
             .catch(err => {
                 console.error('Error fetching sorted/filtered flights:', err);
             });
     }
-
-    // ============ 3. 绑定三个按钮：Apply Filter、Clear Filter、Apply Sort ============
-
-    // Apply Filter 按钮
-    document.getElementById('applyFilterBtn')?.addEventListener('click', function () {
-        event.stopPropagation();  // 阻止事件冒泡
+    // 绑定按钮事件
+    document.getElementById('applyFilterBtn')?.addEventListener('click', function (event) {
+        event.stopPropagation();
         applyFilterAndSort();
     });
-
-    // Clear Filter 按钮
     document.getElementById('clearFilterBtn')?.addEventListener('click', function () {
-        // 清空 Airline 输入
         document.getElementById('filterAirline').value = '';
-        // 清空 Flight Class (修改处)
-        document.getElementById('filterClass').value = '';
-
-        // 如果需要把排序选项也重置为默认值，请取消注释以下一行：
-        // document.getElementById('sortOption').value = '';
-
-        // 然后重新请求
+        document.getElementById('flightClass').value = '';
         applyFilterAndSort();
     });
-
-    // Apply Sort 按钮
-    document.getElementById('applySortBtn')?.addEventListener('click', function () {
-        event.stopPropagation();  // 阻止事件冒泡
+    document.getElementById('applySortBtn')?.addEventListener('click', function (event) {
+        event.stopPropagation();
         applyFilterAndSort();
     });
-
-
-    // ============ 4. 渲染航班列表到表格 ============
-
-    // 把后端返回的 flights 数据渲染到 <tbody>
+    // 渲染航班列表到表格
     function renderFlightTable(flights) {
         const tbody = document.querySelector('.search-result-content tbody');
         if (!tbody) return;
-
-        // 清空原有内容
         tbody.innerHTML = '';
-
         flights.forEach(flight => {
             let tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${flight.airline || ''}</td>
-                <td>${flight.flight_number || ''}</td>
-                <td>${flight.origin || ''}</td>
-                <td>${flight.destination || ''}</td>
-                <td>${flight.departure_date || ''}</td>
-                <td>${flight.departure_time || ''}</td>
-                <td>${flight.price || ''} ${flight.currency || ''}</td>
+                <td>${flight.route || ''}</td>
+                <td>${flight.date || ''}</td>
+                <td>${flight.time && flight.time.departure ? flight.time.departure : ''}</td>
+                <td>${flight.time && flight.time.arrival ? flight.time.arrival : ''}</td>
+                <td>${flight.price ? flight.price.amount : ''} ${flight.price ? flight.price.currency : ''}</td>
                 <td>
-                    <button
-                        type="button"
-                        class="btn save-button"
-                        data-flightnumber="${flight.flight_number}"
-                        data-airline="${flight.airline}"
-                    >
+                    <button type="button" class="btn save-button" data-route="${flight.route}" data-airline="${flight.airline}">
                         Save
                     </button>
                 </td>
             `;
             tbody.appendChild(tr);
         });
-
-        // 由于新生成了“Save”按钮，需重新绑定点击事件（登录校验 + 弹出模态）
         bindSaveButtons();
     }
-
-    // 重新绑定“Save”按钮事件
     function bindSaveButtons() {
         document.querySelectorAll('.save-button').forEach(btn => {
-            btn.addEventListener('click', () => {
-                let flightNumber = btn.dataset.flightnumber;
-                let airline = btn.dataset.airline;
-
+            btn.addEventListener('click', event => {
+                event.stopPropagation();
+                const route = btn.dataset.route;
+                const airline = btn.dataset.airline;
                 if (!isLoggedIn) {
                     let loginModal = new bootstrap.Modal(document.getElementById('loginNeededModal'));
                     loginModal.show();
                 } else {
                     let confirmModal = new bootstrap.Modal(document.getElementById('confirmSaveModal'));
                     document.getElementById('confirmSaveText').innerText =
-                        `Do you want to save flight ${flightNumber} (${airline}) to your trip list?`;
+                        `Do you want to save flight on route ${route} (${airline}) to your trip list?`;
                     const confirmBtn = document.getElementById('confirmSaveBtn');
                     confirmBtn.onclick = function () {
-                        saveFlight(flightNumber);
+                        saveFlight(route);
                         confirmModal.hide();
                     };
                     confirmModal.show();
@@ -803,22 +625,15 @@
             });
         });
     }
-
-
-    // ============ 5. 如果有一个“flight-search-form”提交，需要拦截并异步请求 ============
-
-    // 若页面上没有此表单，可忽略或删除这段
+    // 若页面上有flight_search-form则拦截提交
     document.getElementById('flight_search-form')?.addEventListener('submit', function (event) {
-        event.preventDefault(); // 阻止默认表单提交
-
+        event.preventDefault();
         const origin = document.getElementsByName('from')[0].value;
         const destination = document.getElementsByName('to')[0].value;
         let apiUrl = "{% url 'flight_search' %}?origin=" + encodeURIComponent(origin) + "&destination=" + encodeURIComponent(destination) + "&type=oneway";
-
         fetch(apiUrl)
             .then(response => response.json())
             .then(data => {
-                // 仅做示例，显示在某个区域
                 document.getElementById('search_results').innerText = JSON.stringify(data, null, 2);
             })
             .catch(error => {
@@ -826,42 +641,65 @@
                 document.getElementById('search_results').innerText = 'Error fetching search results.';
             });
     });
-    
+    // 当页面加载完毕，根据 URL 参数发起搜索请求
     document.addEventListener("DOMContentLoaded", function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const requestData = {
-        origin: urlParams.get("origin"),
-        destination: urlParams.get("destination"),
-        departure_date: urlParams.get("departure_date")
-    };
-
-    fetch("/api/search/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(requestData)
-    })
-    .then(response => response.json())
-    .then(data => {
-        const resultsContainer = document.getElementById("flight-results");
+        const urlParams = new URLSearchParams(window.location.search);
+        const requestData = {
+            origin: urlParams.get("origin"),
+            destination: urlParams.get("destination"),
+            departure_date: urlParams.get("departure_date"),
+            return_date: urlParams.get("return_date"),
+            flight_class: urlParams.get("flight_class"),
+            airline: urlParams.get("airline")
+        };
+        fetch("/api/search/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCookie("csrftoken")
+            },
+            body: JSON.stringify(requestData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            const resultsContainer = document.getElementById("flight-results");
             if (data.results && data.results.length > 0) {
                 resultsContainer.innerHTML = data.results.map(flight => `
                     <tr>
                         <td>${flight.airline}</td>
-                        <td>${flight.flight_number}</td>
-                        <td>${flight.origin}</td>
-                        <td>${flight.destination}</td>
+                        <td>${flight.route}</td>
                         <td>${flight.date}</td>
-                        <td>${flight.price}</td>
+                        <td>${flight.time.departure}</td>
+                        <td>${flight.time.arrival}</td>
+                        <td>${flight.price.amount} ${flight.price.currency}</td>
+                        <td>
+                            <button type="button" class="btn save-button" data-route="${flight.route}" data-airline="${flight.airline}">
+                                Save
+                            </button>
+                        </td>
                     </tr>
                 `).join("");
-    }else {
-                resultsContainer.innerHTML = "<tr><td colspan='6'>No flights found.</td></tr>";
+            } else {
+                resultsContainer.innerHTML = "<tr><td colspan='7'>No flights found.</td></tr>";
             }
-            })
+        })
         .catch(error => console.error("Error fetching search results:", error));
-});
-
+    });
+    // Helper function for CSRF token retrieval
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
 </script>
-
 </body>
 </html>
