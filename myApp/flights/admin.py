@@ -13,5 +13,14 @@ class FlightAdmin(admin.ModelAdmin):
 
 @admin.register(SavedTrip)
 class SavedTripAdmin(admin.ModelAdmin):
-    list_display = ('user', 'flight',  'created_at')
+    list_display = ('user', 'trip_info',  'created_at')
     search_fields = ('user__username', 'flight__flight_number')
+
+    def trip_info(self, obj):
+        if obj.trip_data:
+            origin = obj.trip_data.get('origin', '')
+            destination = obj.trip_data.get('destination', '')
+            return f"{origin} → {destination}"
+        return "-"
+
+    trip_info.short_description = "Trip"

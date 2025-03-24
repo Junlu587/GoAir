@@ -41,7 +41,7 @@ urlpatterns = [
     path('api/auth/login/', LoginView.as_view(), name='api_login'),
     path('api/check_user/', check_user, name='check_user'),
 
-    # 将 externalapi 应用的路由挂载到 /api/external/ 下
+    # 将 externalapi 应用的路由挂载到 /api/external/
     path('api/external/', include('myApp.external_api.urls')),
     path('api/search/', search_flights, name='search'),
 

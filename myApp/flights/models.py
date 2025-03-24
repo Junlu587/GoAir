@@ -47,11 +47,26 @@ class Flight(models.Model):
         return f"{self.flight_number} - {self.origin} to {self.destination} ({self.departure_time})"
 
 
+# Add this to your models.py file if not already present
+
 class SavedTrip(models.Model):
+    """
+    Model to store saved trips from search results
+    """
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="saved_trips")
-    flight = models.ForeignKey('Flight', on_delete=models.CASCADE, related_name="saved_in")
-    trip_data = models.JSONField(help_text="Stores the flight trip data from search results")
+    trip_data = models.JSONField(null=True, blank=True)
+    flight = models.ForeignKey('Flight', on_delete=models.CASCADE, related_name="saved_in", null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+    # # Add these fields to store important data directly
+    origin = models.CharField(max_length=100, default="", null=True, blank=True)
+    destination = models.CharField(max_length=100, default="", null=True, blank=True)
+    airline = models.CharField(max_length=100, default="Unknown", null=True, blank=True)
+    date = models.CharField(max_length=20, default="", null=True, blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
+    currency = models.CharField(max_length=10, default="USD", null=True, blank=True)
+    aircraft = models.CharField(max_length=100, default="Unknown", null=True, blank=True)
 
     def __str__(self):
         return f"Saved trip for {self.user.username} at {self.created_at}"
